@@ -20,7 +20,8 @@ export default function Header() {
     // Check if user is already logged in
     const loggedInUser = localStorage.getItem('loggedInUser');
     if (loggedInUser) {
-      router.push('/dashboard');
+      // router.push('/dashboard');
+      router.push('/');
     }
   }, [router]);
 
