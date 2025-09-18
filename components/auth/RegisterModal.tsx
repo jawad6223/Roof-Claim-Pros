@@ -267,8 +267,8 @@ export default function RegisterModal({ isOpen, onClose, onSwitchToLogin }: Regi
     alert('🎉 Account created successfully! Redirecting to your dashboard...');
     handleClose();
     
-    // Redirect to dashboard
-    router.push('/dashboard');
+    // router.push('/dashboard');
+    router.push('/');
   };
 
   if (!isOpen) return null;

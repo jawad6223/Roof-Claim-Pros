@@ -39,7 +39,8 @@ export default function LoginModal({ isOpen, onClose, onSwitchToRegister }: Logi
     // Set logged in state
     localStorage.setItem('loggedInUser', loginData.username);
     onClose();
-    router.push('/dashboard');
+    // router.push('/dashboard');
+    router.push('/');
   };
 
   const handleClose = () => {
