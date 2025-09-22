@@ -1,14 +1,29 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Element } from 'react-scroll';
 import Image from 'next/image';
-import { ArrowRight, ArrowLeft, CheckCircle, Shield, Award, Star, Phone, MapPin, Clock, Home, X, Share2, Copy, Facebook, Twitter, MessageCircle, Mail } from 'lucide-react';
+import { ArrowRight, ArrowLeft, CheckCircle, Shield, Award, Star, Phone, MapPin, Clock, Home, X, Share2, Copy, Facebook, Twitter, MessageCircle, Mail, ChevronDown } from 'lucide-react';
+
+interface PlacePrediction {
+  place_id: string;
+  description: string;
+  structured_formatting: {
+    main_text: string;
+    secondary_text: string;
+  };
+  types: string[];
+}
 
 export default function Hero() {
+  const GOOGLE_PLACES_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY || '';
   const [currentStep, setCurrentStep] = useState(1);
   const [showThankYouModal, setShowThankYouModal] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [zipSuggestions, setZipSuggestions] = useState<PlacePrediction[]>([]);
+  const [showZipSuggestions, setShowZipSuggestions] = useState(false);
+  const [isLoadingZips, setIsLoadingZips] = useState(false);
+  const [debounceTimer, setDebounceTimer] = useState<NodeJS.Timeout | null>(null);
   const [formData, setFormData] = useState({
     zipCode: '',
     phoneNumber: '',
@@ -19,9 +34,67 @@ export default function Hero() {
     policyNumber: ''
   });
 
+
   const [errors, setErrors] = React.useState<{ [key: string]: string }>({});
   
   const referralLink = "https://project-two-mu-88.vercel.app";
+
+  const fetchZipCodeSuggestions = async (input: string) => {
+    try {
+      setIsLoadingZips(true);
+  
+      const response = await fetch(`/api/places?input=${encodeURIComponent(input)}`);
+  
+      if (!response.ok) {
+        throw new Error("Failed to fetch ZIP code suggestions");
+      }
+  
+      const data = await response.json();
+  
+      if (data.status === "OK") {
+        const filteredPredictions = data.predictions
+          .filter((prediction: PlacePrediction) =>
+            prediction.types.includes("postal_code") ||
+            prediction.types.includes("locality") ||
+            prediction.types.includes("administrative_area_level_1")
+          )
+          .slice(0, 5);
+  
+        setZipSuggestions(filteredPredictions || []);
+      } else {
+        console.error("Google API error:", data.status);
+        setZipSuggestions([]);
+      }
+    } catch (error) {
+      console.error("Error fetching ZIP code suggestions:", error);
+      setZipSuggestions([]);
+    } finally {
+      setIsLoadingZips(false);
+    }
+  };
+  
+
+  const handleZipSelect = (prediction: PlacePrediction) => {
+    setFormData(prev => ({
+      ...prev,
+      zipCode: prediction.description
+    }));
+    setShowZipSuggestions(false);
+    setZipSuggestions([]);
+    setIsLoadingZips(false);
+    
+    // Clear debounce timer
+    if (debounceTimer) {
+      clearTimeout(debounceTimer);
+    }
+    
+    // Clear any existing error
+    setErrors(prev => {
+      const newErrors = { ...prev };
+      delete newErrors.zipCode;
+      return newErrors;
+    });
+  };
 
   const validateField = (field: string, value: string): string => {
     switch (field) {
@@ -75,16 +148,6 @@ export default function Hero() {
     }
   };
 
-
-
-
-
-
-
-
-
-
-
   const nextStep = () => {
     if (currentStep < 3) {
       setCurrentStep(currentStep + 1);
@@ -96,12 +159,38 @@ export default function Hero() {
       setCurrentStep(currentStep - 1);
     }
   };
+  
+
+  // Close suggestions when clicking outsid
 
   const handleInputChange = (field: string, value: string) => {
+
     setFormData(prev => ({
       ...prev,
       [field]: value
     }));
+
+    if (field === 'zipCode') {
+      // Clear previous timer
+      if (debounceTimer) {
+        clearTimeout(debounceTimer);
+      }
+      
+      if (value.length >= 2) {
+        setShowZipSuggestions(true);
+        setIsLoadingZips(true);
+        
+        // Debounce API calls to avoid too many requests
+        const timer = setTimeout(() => {
+          fetchZipCodeSuggestions(value);
+        }, 300); // 300ms delay
+        
+        setDebounceTimer(timer);
+      } else {
+        setShowZipSuggestions(false);
+        setZipSuggestions([]);
+      }
+    }
 
     const errorMessage = validateField(field, value);
     setErrors(prev => ({
@@ -336,8 +425,40 @@ export default function Hero() {
                       />
                       {errors.zipCode && <p className="text-red-500 text-xs mt-1">{errors.zipCode}</p>}
                       <p className="text-xs text-gray-500">We'll check for recent storm activity in your area</p>
+                      
+                      {showZipSuggestions && zipSuggestions.length > 0 && (
+                        <div className="absolute z-50 w-full bg-white border border-gray-300 rounded-xl shadow-xl mt-1 max-h-48 overflow-y-auto">
+                          {isLoadingZips ? (
+                            <div className="px-4 py-3 text-gray-600 text-center">
+                              <div className="flex items-center justify-center space-x-2">
+                                <div className="w-4 h-4 border-2 border-[#2563eb] border-t-transparent rounded-full animate-spin"></div>
+                                <span className="text-sm">Loading suggestions...</span>
+                              </div>
+                            </div>
+                          ) : (
+                            zipSuggestions.map((prediction, index) => (
+                              <button
+                                key={`${prediction.place_id}-${index}`}
+                                type="button"
+                                onClick={() => handleZipSelect(prediction)}
+                                className="w-full text-left px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-gray-900 transition-all duration-200 flex items-center justify-between border-b border-gray-100 last:border-b-0"
+                              >
+                                <div className="flex items-center space-x-3">
+                                  <div className="w-2 h-2 bg-[#2563eb] rounded-full"></div>
+                                  <div>
+                                    <div className="font-semibold text-gray-900">{prediction.structured_formatting.main_text}</div>
+                                    <div className="text-sm text-gray-500">{prediction.structured_formatting.secondary_text}</div>
+                                  </div>
+                                </div>
+                                <MapPin className="h-4 w-4 text-gray-400" />
+                              </button>
+                            ))
+                          )}
+                        </div>
+                      )}
                     </div>
                   )}
+                  
 
                   {/* Step 2: Contact Info */}
                   {currentStep === 2 && (
