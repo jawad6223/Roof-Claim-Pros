@@ -73,6 +73,17 @@ export default function Hero() {
     }
   };
   
+  useEffect(() => {
+    if (showThankYouModal) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [showThankYouModal]);
 
   const handleZipSelect = (prediction: PlacePrediction) => {
     setFormData(prev => ({
