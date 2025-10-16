@@ -4,6 +4,8 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Element } from 'react-scroll';
 import Image from 'next/image';
 import { ArrowRight, ArrowLeft, CheckCircle, Shield, Award, Star, Phone, MapPin, Clock, Home, X, Share2, Copy, Facebook, Twitter, MessageCircle, Mail, ChevronDown } from 'lucide-react';
+import { supabase } from '@/lib/supabase';
+import { toast } from 'react-toastify';
 
 interface PlacePrediction {
   place_id: string;
@@ -23,6 +25,7 @@ export default function Hero() {
   const [zipSuggestions, setZipSuggestions] = useState<PlacePrediction[]>([]);
   const [showZipSuggestions, setShowZipSuggestions] = useState(false);
   const [isLoadingZips, setIsLoadingZips] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [debounceTimer, setDebounceTimer] = useState<NodeJS.Timeout | null>(null);
   const [formData, setFormData] = useState({
     zipCode: '',
@@ -233,10 +236,43 @@ export default function Hero() {
     return emailRegex.test(email);
   };
 
-  const handleSubmit = () => {
-    console.log('Form submitted:', formData);
+  // const handleSubmit = () => {
+  //   console.log('Form submitted:', formData);
+  //   setShowThankYouModal(true);
+  // };
+
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setIsSubmitting(true);
+  try {
+    // 1️⃣ Insert data into Leads_Data table
+     const { error } = await supabase.from("Leads_Data").insert([
+       {
+         "Property ZIP Code": formData.zipCode,
+         "First Name": formData.firstName,
+         "Last Name": formData.lastName,
+         "Phone Number": formData.phoneNumber,
+         "Email Address": formData.email,
+         "Insurance Company": formData.insuredBy,
+         "Policy Number": formData.policyNumber,
+         "Status": "open",
+       },
+     ]);
+
+    if (error) throw error;
+
+    // 2️⃣ Show success
+    toast.success("Lead submitted successfully!");
     setShowThankYouModal(true);
-  };
+
+  } catch (err: any) {
+    console.error("Error submitting lead:", err);
+    toast.error("Failed to submit lead. Please try again.");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+
 
   const handleCopyLink = async () => {
     try {
@@ -437,7 +473,7 @@ export default function Hero() {
                       {errors.zipCode && <p className="text-red-500 text-xs mt-1">{errors.zipCode}</p>}
                       <p className="text-xs text-gray-500">We'll check for recent storm activity in your area</p>
                       
-                      {showZipSuggestions && zipSuggestions.length > 0 && (
+                      {showZipSuggestions && (
                         <div className="absolute z-50 w-full bg-white border border-gray-300 rounded-xl shadow-xl mt-1 max-h-48 overflow-y-auto">
                           {isLoadingZips ? (
                             <div className="px-4 py-3 text-gray-600 text-center">
@@ -612,13 +648,13 @@ export default function Hero() {
 
                     <button
                       onClick={currentStep === 3 ? handleSubmit : nextStep}
-                      disabled={!isStepValid()}
+                      disabled={!isStepValid() || isSubmitting}
                       className="flex-1 bg-[#122E5F] hover:bg-[#0f2347] disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 flex items-center justify-center space-x-2"
                     >
                       {currentStep === 3 ? (
                         <span className="flex items-center space-x-2 md:whitespace-nowrap">
                           <Shield className="h-5 w-5" />
-                          <span>Get My Free Inspection</span>
+                          <span>{isSubmitting ? 'Submitting...' : 'Get My Free Inspection'}</span>
                         </span>
                       ) : (
                         <>
