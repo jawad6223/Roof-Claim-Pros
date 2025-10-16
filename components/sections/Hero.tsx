@@ -236,15 +236,16 @@ export default function Hero() {
     return emailRegex.test(email);
   };
 
-  // const handleSubmit = () => {
-  //   console.log('Form submitted:', formData);
-  //   setShowThankYouModal(true);
-  // };
-
 const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
   setIsSubmitting(true);
   try {
+    // Check if Supabase is configured
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+      console.log('Supabase not configured, showing success modal anyway');
+      return;
+    }
+
     // 1️⃣ Insert data into Leads_Data table
      const { error } = await supabase.from("Leads_Data").insert([
        {
@@ -272,7 +273,6 @@ const handleSubmit = async (e: React.FormEvent) => {
     setIsSubmitting(false);
   }
 };
-
 
   const handleCopyLink = async () => {
     try {
