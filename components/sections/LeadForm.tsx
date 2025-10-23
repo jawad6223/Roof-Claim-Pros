@@ -39,6 +39,7 @@ export const LeadForm = () => {
   const [showThankYouModal, setShowThankYouModal] = useState(false);
   const [copied, setCopied] = useState(false);
   const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null);
+  const [isAddressSelected, setIsAddressSelected] = useState(false);
 
   const {
     register,
@@ -58,6 +59,10 @@ export const LeadForm = () => {
   const handleInputChange = (field: keyof FormData, value: string) => {
     setValue(field, value);
     trigger(field);
+
+    if (field === "address") {
+      setIsAddressSelected(false);
+    }
 
     // if (field === "address") {
     //   if (debounceTimer) {
@@ -98,7 +103,8 @@ export const LeadForm = () => {
   const isStepValid = async () => {
     switch (currentStep) {
       case 1:
-        return await trigger("address");
+        const addressValid = await trigger("address");
+        return addressValid && isAddressSelected;
       case 2:
         return await trigger(["firstName", "lastName", "phoneNumber", "email"]);
       case 3:
@@ -124,6 +130,8 @@ export const LeadForm = () => {
   const handleAddressSelect = async (prediction: PlacePrediction) => {
     try {
       setValue("address", prediction.description);
+      setIsAddressSelected(true);
+      trigger("address");
   
       const response = await fetch(`/api/place-details?place_id=${prediction.place_id}`);
       const data = await response.json();
@@ -279,6 +287,8 @@ export const LeadForm = () => {
     setValue("lastName", "");
     setValue("insuredBy", "");
     setValue("policyNumber", "");
+    setIsAddressSelected(false);
+    setCoords(null);
     setCopied(false);
   };
 
@@ -400,12 +410,12 @@ export const LeadForm = () => {
               <div className="space-y-2">
               <AddressSuggestion
                   value={watch("address")}
-                  onChange={(value) => setValue("address", value)}
+                  onChange={(value) => handleInputChange("address", value)}
                   onSelect={handleAddressSelect}
                   placeholder="Start typing your address..."
                   label="Property Address"
                   required={true}
-                  error={errors.address?.message}
+                  error={errors.address?.message || (!isAddressSelected && watch("address") ? "Please select an address from the suggestions" : "")}
                 />
                 </div>
             )}

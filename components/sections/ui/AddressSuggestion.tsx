@@ -109,7 +109,7 @@ export const AddressSuggestion: React.FC<AddressSuggestionProps> = ({
           placeholder={placeholder}
           value={value}
           onChange={handleInputChange}
-          className={`h-10 text-sm text-black ${
+          className={`h-12 w-full px-4 py-3 border-2 border-gray-300 rounded-xl text-gray-900 placeholder-gray-500 transition-all duration-300 ${
             error ? "border-red-500 focus:border-red-500 focus:ring-red-500" : ""
           } ${className}`}
         />
