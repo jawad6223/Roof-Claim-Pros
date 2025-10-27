@@ -594,7 +594,7 @@ export const LeadForm = () => {
             )}
 
             {/* Navigation Buttons */}
-            <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mt-8">
+            <div className="flex space-x-4 mt-8">
               {currentStep > 1 && (
                 <button
                   onClick={prevStep}
@@ -663,7 +663,7 @@ export const LeadForm = () => {
               {/* Referral Link */}
               <div className="mb-6">
                 <label className="block text-gray-700 font-semibold mb-2 text-sm">
-                  Your Referral Link:
+                  Share this link with your friends:
                 </label>
                 <div className="flex items-center space-x-2">
                   <input
