@@ -594,7 +594,7 @@ export const LeadForm = () => {
             )}
 
             {/* Navigation Buttons */}
-            <div className="flex space-x-4 mt-8">
+            <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mt-8">
               {currentStep > 1 && (
                 <button
                   onClick={prevStep}
