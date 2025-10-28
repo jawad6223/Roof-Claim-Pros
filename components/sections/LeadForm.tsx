@@ -19,42 +19,39 @@ import { supabase } from "@/lib/supabase";
 import { toast } from "react-toastify";
 import { AddressSuggestion } from "./ui/AddressSuggestion";
 import { PlacePrediction } from "@/types/AuthType";
-
-interface FormData {
-  address: string;
-  firstName: string;
-  lastName: string;
-  phoneNumber: string;
-  email: string;
-  insuredBy: string;
-  policyNumber: string;
-}
+import { FormData } from "@/types/AuthType";
 
 export const LeadForm = () => {
   const referralLink = "https://roof-claim-pros.vercel.app";
   const [currentStep, setCurrentStep] = useState(1);
-  const [addressSuggestions, setAddressSuggestions] = useState<PlacePrediction[]>([]);
-  const [showAddressSuggestions, setShowAddressSuggestions] = useState(false);
-  const [isLoadingAddresses, setIsLoadingAddresses] = useState(false);
   const [showThankYouModal, setShowThankYouModal] = useState(false);
   const [copied, setCopied] = useState(false);
   const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null);
   const [isAddressSelected, setIsAddressSelected] = useState(false);
+  const [attemptedSteps, setAttemptedSteps] = useState<Set<number>>(new Set());
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, touchedFields },
     setValue,
     watch,
     trigger,
     getValues,
   } = useForm<FormData>({
     resolver: yupResolver(validationSchema),
-    mode: "onChange",
+    mode: "onBlur",
   });
 
   const formData = watch();
+
+  const shouldShowError = (fieldName: keyof FormData) => {
+    return errors[fieldName] && (touchedFields[fieldName] || attemptedSteps.has(currentStep));
+  };
+
+  const getErrorMessage = (fieldName: keyof FormData) => {
+    return errors[fieldName]?.message || "";
+  };
 
   const handleInputChange = (field: keyof FormData, value: string) => {
     setValue(field, value);
@@ -64,40 +61,22 @@ export const LeadForm = () => {
       setIsAddressSelected(false);
     }
 
-    // if (field === "address") {
-    //   if (debounceTimer) {
-    //     clearTimeout(debounceTimer);
-    //   }
-
-    //   if (value.length >= 2) {
-    //     setShowAddressSuggestions(true);
-    //     setIsLoadingAddresses(true);
-
-    //     const timer = setTimeout(() => {
-    //       fetchAddressSuggestions(value);
-    //     }, 300);
-
-    //     setDebounceTimer(timer);
-    //   } else {
-    //     setShowAddressSuggestions(false);
-    //     setAddressSuggestions([]);
-    //   }
-    // }
+    let processedValue = value;
 
     if (field === "phoneNumber") {
-      const digits = value.replace(/\D/g, "").slice(0, 10);
-      let formatted = digits;
-      if (digits.length > 6) {
-        formatted = `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
-      } else if (digits.length > 3) {
-        formatted = `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
-      } else if (digits.length > 0) {
-        formatted = `(${digits}`;
-      }
-      if (value !== formatted) {
-        setValue("phoneNumber", formatted);
+      const digits = value.replace(/\D/g, "");
+
+      if (digits.length <= 3) {
+        processedValue = digits;
+      } else if (digits.length <= 6) {
+        processedValue = `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
+      } else if (digits.length <= 10) {
+        processedValue = `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+      } else {
+        processedValue = `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6, 10)}`;
       }
     }
+    setValue(field, processedValue);
   };
 
   const isStepValid = async () => {
@@ -115,6 +94,23 @@ export const LeadForm = () => {
   };
 
   const nextStep = async () => {
+    setAttemptedSteps(prev => new Set([...Array.from(prev), currentStep]));
+    
+    let fieldsToValidate: (keyof FormData)[] = [];
+    
+    switch (currentStep) {
+      case 1:
+        fieldsToValidate = ["address"];
+        break;
+      case 2:
+        fieldsToValidate = ["firstName", "lastName", "phoneNumber", "email"];
+        break;
+      case 3:
+        fieldsToValidate = ["insuredBy", "policyNumber"];
+        break;
+    }
+    await trigger(fieldsToValidate);
+    
     const isValid = await isStepValid();
     if (isValid && currentStep < 3) {
       setCurrentStep(currentStep + 1);
@@ -147,54 +143,8 @@ export const LeadForm = () => {
     }
   };
 
-  // const fetchAddressSuggestions = async (input: string) => {
-  //   try {
-  //     setIsLoadingAddresses(true);
-
-  //     const response = await fetch(
-  //       `/api/places?input=${encodeURIComponent(input)}`
-  //     );
-
-  //     if (!response.ok) {
-  //       throw new Error("Failed to fetch address suggestions");
-  //     }
-
-  //     const data = await response.json();
-
-  //     if (data.status === "OK") {
-  //       const filteredPredictions = data.predictions
-  //         .filter(
-  //           (prediction: PlacePrediction) =>
-  //             prediction.types.includes("postal_code") ||
-  //             prediction.types.includes("locality") ||
-  //             prediction.types.includes("administrative_area_level_1")
-  //         )
-  //         .slice(0, 5);
-
-  //       setAddressSuggestions(filteredPredictions || []);
-  //     } else {
-  //       console.error("Google API error:", data.status);
-  //       setAddressSuggestions([]);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching address suggestions:", error);
-  //     setAddressSuggestions([]);
-  //   } finally {
-  //     setIsLoadingAddresses(false);
-  //   }
-  // };
-
   const onSubmit = async (data: FormData) => {
     try {
-      if (
-        !process.env.NEXT_PUBLIC_SUPABASE_URL ||
-        !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-      ) {
-        console.log("Supabase not configured, showing success modal anyway");
-        setShowThankYouModal(true);
-        return;
-      }
-
       const { error } = await supabase.from("Leads_Data").insert([
         {
           "Property Address": data.address,
@@ -290,6 +240,7 @@ export const LeadForm = () => {
     setIsAddressSelected(false);
     setCoords(null);
     setCopied(false);
+    setAttemptedSteps(new Set());
   };
 
   return (
@@ -347,66 +298,6 @@ export const LeadForm = () => {
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             {/* Step 1: ZIP Code */}
             {currentStep === 1 && (
-              // <div className="space-y-2">
-              //   <label className="block text-gray-700 font-semibold text-left">
-              //     📍 Property ZIP Code
-              //   </label>
-              //   <input
-              //     {...register("zipCode")}
-              //     type="text"
-              //     placeholder="Enter your ZIP code"
-              //     className={`w-full px-6 py-4 border-2 border-gray-300 rounded-2xl focus:ring-2 focus:ring-[#2563eb] focus:border-[#2563eb] text-gray-900 placeholder-gray-500 transition-all duration-300 text-lg ${
-              //       errors.zipCode ? "border-red-500" : "border-gray-300"
-              //     }`}
-              //     onChange={(e) => handleInputChange("zipCode", e.target.value)}
-              //   />
-              //   {errors.zipCode && (
-              //     <p className="text-red-500 text-xs mt-1">{errors.zipCode.message}</p>
-              //   )}
-              //   <p className="text-xs text-gray-500">
-              //     We'll check for recent storm activity in your area
-              //   </p>
-
-              //   {showZipSuggestions && (
-              //     <div className="absolute z-50 w-full bg-white border border-gray-300 rounded-xl shadow-xl mt-1 max-h-48 overflow-y-auto">
-              //       {isLoadingZips ? (
-              //         <div className="px-4 py-3 text-gray-600 text-center">
-              //           <div className="flex items-center justify-center space-x-2">
-              //             <div className="w-4 h-4 border-2 border-[#2563eb] border-t-transparent rounded-full animate-spin"></div>
-              //             <span className="text-sm">
-              //               Loading suggestions...
-              //             </span>
-              //           </div>
-              //         </div>
-              //       ) : (
-              //         zipSuggestions.map((prediction, index) => (
-              //           <button
-              //             key={`${prediction.place_id}-${index}`}
-              //             type="button"
-              //             onClick={() => handleZipSelect(prediction)}
-              //             className="w-full text-left px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-gray-900 transition-all duration-200 flex items-center justify-between border-b border-gray-100 last:border-b-0"
-              //           >
-              //             <div className="flex items-center space-x-3">
-              //               <div className="w-2 h-2 bg-[#2563eb] rounded-full"></div>
-              //               <div>
-              //                 <div className="font-semibold text-gray-900">
-              //                   {prediction.structured_formatting.main_text}
-              //                 </div>
-              //                 <div className="text-sm text-gray-500">
-              //                   {
-              //                     prediction.structured_formatting
-              //                       .secondary_text
-              //                   }
-              //                 </div>
-              //               </div>
-              //             </div>
-              //             <MapPin className="h-4 w-4 text-gray-400" />
-              //           </button>
-              //         ))
-              //       )}
-              //     </div>
-              //   )}
-              // </div>
               <div className="space-y-2">
               <AddressSuggestion
                   value={watch("address")}
@@ -415,7 +306,7 @@ export const LeadForm = () => {
                   placeholder="Start typing your address..."
                   label="Property Address"
                   required={true}
-                  error={errors.address?.message || (!isAddressSelected && watch("address") ? "Please select an address from the suggestions" : "")}
+                  error={shouldShowError("address") ? (getErrorMessage("address") || (!isAddressSelected && watch("address") ? "Please select an address from the suggestions" : "")) : ""}
                 />
                 </div>
             )}
@@ -432,16 +323,16 @@ export const LeadForm = () => {
                       {...register("firstName")}
                       type="text"
                       placeholder="John"
-                      className={`w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-[#2563eb] focus:border-[#2563eb] text-gray-900 placeholder-gray-500 transition-all duration-300 ${
-                        errors.firstName ? "border-red-500" : "border-gray-300"
-                      }`}
+                      className={`w-full px-4 py-3 border-2 rounded-xl text-gray-900 placeholder-gray-500 focus:ring-2 focus:border-[#308AF8] focus:outline-none transition-all duration-300 ${
+                        shouldShowError("firstName") ? "border-red-500" : "border-gray-300"
+                      } `}
                       onChange={(e) =>
                         handleInputChange("firstName", e.target.value)
                       }
                     />
-                    {errors.firstName && (
+                    {shouldShowError("firstName") && (
                       <p className="text-red-500 text-xs mt-1">
-                        {errors.firstName.message}
+                        {getErrorMessage("firstName")}
                       </p>
                     )}
                   </div>
@@ -453,16 +344,16 @@ export const LeadForm = () => {
                       {...register("lastName")}
                       type="text"
                       placeholder="Smith"
-                      className={`w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-[#2563eb] focus:border-[#2563eb] text-gray-900 placeholder-gray-500 transition-all duration-300 ${
-                        errors.lastName ? "border-red-500" : "border-gray-300"
+                      className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:border-[#308AF8] focus:outline-none text-gray-900 placeholder-gray-500 transition-all duration-300 ${
+                        shouldShowError("lastName") ? "border-red-500" : "border-gray-300"
                       }`}
                       onChange={(e) =>
                         handleInputChange("lastName", e.target.value)
                       }
                     />
-                    {errors.lastName && (
+                    {shouldShowError("lastName") && (
                       <p className="text-red-500 text-xs mt-1">
-                        {errors.lastName.message}
+                        {getErrorMessage("lastName")}
                       </p>
                     )}
                   </div>
@@ -476,16 +367,16 @@ export const LeadForm = () => {
                     {...register("phoneNumber")}
                     type="tel"
                     placeholder="(555) 123-4567"
-                    className={`w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-[#2563eb] focus:border-[#2563eb] text-gray-900 placeholder-gray-500 transition-all duration-300 ${
-                      errors.phoneNumber ? "border-red-500" : "border-gray-300"
+                    className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:border-[#308AF8] focus:outline-none text-gray-900 placeholder-gray-500 transition-all duration-300 ${
+                      shouldShowError("phoneNumber") ? "border-red-500" : "border-gray-300"
                     }`}
                     onChange={(e) =>
                       handleInputChange("phoneNumber", e.target.value)
                     }
                   />
-                  {errors.phoneNumber && (
+                  {shouldShowError("phoneNumber") && (
                     <p className="text-red-500 text-xs mt-1">
-                      {errors.phoneNumber.message}
+                      {getErrorMessage("phoneNumber")}
                     </p>
                   )}
                 </div>
@@ -498,13 +389,13 @@ export const LeadForm = () => {
                     {...register("email")}
                     type="email"
                     placeholder="john@example.com"
-                    className={`w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-[#2563eb] focus:border-[#2563eb] text-gray-900 placeholder-gray-500 transition-all duration-300 ${
-                      errors.email ? "border-red-500" : "border-gray-300"
+                    className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:border-[#308AF8] focus:outline-none text-gray-900 placeholder-gray-500 transition-all duration-300 ${
+                      shouldShowError("email") ? "border-red-500" : "border-gray-300"
                     }`}
                     onChange={(e) => handleInputChange("email", e.target.value)}
                   />
-                  {errors.email && (
-                    <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>
+                  {shouldShowError("email") && (
+                    <p className="text-red-500 text-xs mt-1">{getErrorMessage("email")}</p>
                   )}
                 </div>
               </div>
@@ -520,17 +411,17 @@ export const LeadForm = () => {
                   <input
                     {...register("insuredBy")}
                     type="text"
-                    placeholder="State Farm, Allstate, USAA, etc."
-                    className={`w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-[#2563eb] focus:border-[#2563eb] text-gray-900 placeholder-gray-500 transition-all duration-300 ${
-                      errors.insuredBy ? "border-red-500" : "border-gray-300"
+                    placeholder="Your insurance company name"
+                    className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:border-[#308AF8] focus:outline-none text-gray-900 placeholder-gray-500 transition-all duration-300 ${
+                      shouldShowError("insuredBy") ? "border-red-500" : "border-gray-300"
                     }`}
                     onChange={(e) =>
                       handleInputChange("insuredBy", e.target.value)
                     }
                   />
-                  {errors.insuredBy && (
+                  {shouldShowError("insuredBy") && (
                     <p className="text-red-500 text-xs mt-1">
-                      {errors.insuredBy.message}
+                      {getErrorMessage("insuredBy")}
                     </p>
                   )}
                 </div>
@@ -543,16 +434,16 @@ export const LeadForm = () => {
                     {...register("policyNumber")}
                     type="text"
                     placeholder="Your insurance policy number"
-                    className={`w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-[#2563eb] focus:border-[#2563eb] text-gray-900 placeholder-gray-500 transition-all duration-300 ${
-                      errors.policyNumber ? "border-red-500" : "border-gray-300"
+                    className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:border-[#308AF8] focus:outline-none text-gray-900 placeholder-gray-500 transition-all duration-300 ${
+                      shouldShowError("policyNumber") ? "border-red-500" : "border-gray-300"
                     }`}
                     onChange={(e) =>
                       handleInputChange("policyNumber", e.target.value)
                     }
                   />
-                  {errors.policyNumber && (
+                  {shouldShowError("policyNumber") && (
                     <p className="text-red-500 text-xs mt-1">
-                      {errors.policyNumber.message}
+                      {getErrorMessage("policyNumber")}
                     </p>
                   )}
                 </div>

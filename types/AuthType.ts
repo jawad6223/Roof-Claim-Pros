@@ -18,3 +18,13 @@ export interface PlacePrediction {
     error?: string;
     className?: string;
   }
+
+  export interface FormData {
+    address: string;
+    firstName: string;
+    lastName: string;
+    phoneNumber: string;
+    email: string;
+    insuredBy: string;
+    policyNumber: string;
+  }
