@@ -97,8 +97,7 @@ export default function Header() {
             </div>
 
             {/* Desktop Navigation Items */}
-            <div className="hidden md:flex items-center">
-              {/* Contractor Login */}
+            {/* <div className="hidden md:flex items-center">
               <button
                 onClick={() => openModal('login')}
                 className="flex items-center space-x-2 bg-[#122E5F] hover:bg-[#0f2347] text-white px-6 py-2.5 rounded-lg transition-all duration-300 font-medium shadow-sm"
@@ -106,7 +105,7 @@ export default function Header() {
                 <User className="h-4 w-4" />
                 <span className="text-sm font-semibold">Pro Login</span>
               </button>
-            </div>
+            </div> */}
 
             {/* Mobile Menu Button */}
             <div className="md:hidden">

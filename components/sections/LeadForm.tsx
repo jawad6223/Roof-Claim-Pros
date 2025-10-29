@@ -20,6 +20,7 @@ import { toast } from "react-toastify";
 import { AddressSuggestion } from "./ui/AddressSuggestion";
 import { PlacePrediction } from "@/types/AuthType";
 import { FormData } from "@/types/AuthType";
+import { AutoAssignNewLeads } from "@/lib/AutoAssignNewLeads";
 
 export const LeadForm = () => {
   const referralLink = "https://roof-claim-pros.vercel.app";
@@ -29,6 +30,7 @@ export const LeadForm = () => {
   const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null);
   const [isAddressSelected, setIsAddressSelected] = useState(false);
   const [attemptedSteps, setAttemptedSteps] = useState<Set<number>>(new Set());
+  const [newLead, setNewLead] = useState(null);
 
   const {
     register,
@@ -46,10 +48,23 @@ export const LeadForm = () => {
   const formData = watch();
 
   const shouldShowError = (fieldName: keyof FormData) => {
+    if (fieldName === "address" && currentStep === 1) {
+      const addressValue = watch("address");
+      if (addressValue && !isAddressSelected) {
+        return touchedFields[fieldName] || attemptedSteps.has(currentStep);
+      }
+      return errors[fieldName] && (touchedFields[fieldName] || attemptedSteps.has(currentStep));
+    }
     return errors[fieldName] && (touchedFields[fieldName] || attemptedSteps.has(currentStep));
   };
 
   const getErrorMessage = (fieldName: keyof FormData) => {
+    if (fieldName === "address" && currentStep === 1) {
+      const addressValue = watch("address");
+      if (addressValue && !isAddressSelected) {
+        return "Please select an address from the suggestions";
+      }
+    }
     return errors[fieldName]?.message || "";
   };
 
@@ -143,9 +158,17 @@ export const LeadForm = () => {
     }
   };
 
+  const handleContinueClick = () => {
+    if (currentStep === 3) {
+      handleSubmit(onSubmit)();
+    } else {
+      nextStep();
+    }
+  };
+
   const onSubmit = async (data: FormData) => {
     try {
-      const { error } = await supabase.from("Leads_Data").insert([
+      const { data: inserted, error } = await supabase.from("Leads_Data").insert([
         {
           "Property Address": data.address,
           "First Name": data.firstName,
@@ -157,12 +180,14 @@ export const LeadForm = () => {
           Status: "open",
           "Latitude": coords?.lat,
           "Longitude": coords?.lng,
-        },
-      ]);
+        }])
+        .select()
+        .single();
 
       if (error) throw error;
 
       toast.success("Lead submitted successfully!");
+      setNewLead(inserted);
       setShowThankYouModal(true);
     } catch (err: any) {
       console.error("Error submitting lead:", err);
@@ -245,6 +270,7 @@ export const LeadForm = () => {
 
   return (
     <>
+    {newLead && <AutoAssignNewLeads newLead={newLead} />}
       <section>
         <div className="bg-white rounded-3xl shadow-2xl p-8">
           <div className="text-center mb-8">
@@ -295,7 +321,17 @@ export const LeadForm = () => {
           </div>
 
           {/* Form Steps */}
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <form 
+            onSubmit={(e) => {
+              e.preventDefault();
+            }} 
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+              }
+            }}
+            className="space-y-6"
+          >
             {/* Step 1: ZIP Code */}
             {currentStep === 1 && (
               <div className="space-y-2">
@@ -306,7 +342,7 @@ export const LeadForm = () => {
                   placeholder="Start typing your address..."
                   label="Property Address"
                   required={true}
-                  error={shouldShowError("address") ? (getErrorMessage("address") || (!isAddressSelected && watch("address") ? "Please select an address from the suggestions" : "")) : ""}
+                  error={shouldShowError("address") ? getErrorMessage("address") : ""}
                 />
                 </div>
             )}
@@ -485,7 +521,7 @@ export const LeadForm = () => {
             )}
 
             {/* Navigation Buttons */}
-            <div className="flex space-x-4 mt-8">
+            <div className="flex flex-col md:flex-row gap-4 md:gap-0 md:space-x-4 mt-8">
               {currentStep > 1 && (
                 <button
                   onClick={prevStep}
@@ -497,13 +533,13 @@ export const LeadForm = () => {
               )}
 
               <button
-                type={currentStep === 3 ? "submit" : "button"}
-                onClick={currentStep === 3 ? undefined : nextStep}
+                type="button"
+                onClick={handleContinueClick}
                 disabled={isSubmitting}
                 className="flex-1 bg-[#122E5F] hover:bg-[#0f2347] disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 flex items-center justify-center space-x-2"
               >
                 {currentStep === 3 ? (
-                  <span className="flex items-center space-x-2 md:whitespace-nowrap">
+                  <span className="flex items-center space-x-2 whitespace-nowrap">
                     <Shield className="h-5 w-5" />
                     <span>
                       {isSubmitting
@@ -556,16 +592,16 @@ export const LeadForm = () => {
                 <label className="block text-gray-700 font-semibold mb-2 text-sm">
                   Share this link with your friends:
                 </label>
-                <div className="flex items-center space-x-2">
+                <div className="flex flex-col md:flex-row items-center gap-2 md:gap-0">
                   <input
                     type="text"
                     value={referralLink}
                     readOnly
-                    className="flex-1 px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-gray-700 text-sm"
+                    className="flex-1 w-full md:w-auto px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-gray-700 text-sm"
                   />
                   <button
                     onClick={handleCopyLink}
-                    className={`px-4 py-2 rounded-lg font-semibold transition-all duration-300 text-sm shadow-sm ${
+                    className={`w-full md:w-auto px-4 py-2 rounded-lg font-semibold transition-all duration-300 text-sm shadow-sm ${
                       copied
                         ? "bg-green-600 hover:bg-green-700 text-white"
                         : "bg-[#122E5F] hover:bg-[#0f2347] text-white"
