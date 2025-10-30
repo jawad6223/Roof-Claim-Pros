@@ -30,7 +30,7 @@ export const LeadForm = () => {
   const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null);
   const [isAddressSelected, setIsAddressSelected] = useState(false);
   const [attemptedSteps, setAttemptedSteps] = useState<Set<number>>(new Set());
-  const [newLead, setNewLead] = useState(null);
+  const [newLead, setNewLead] = useState<FormData | null>(null);
 
   const {
     register,
@@ -182,12 +182,13 @@ export const LeadForm = () => {
           "Longitude": coords?.lng,
         }])
         .select()
-        .single();
+        // .returns<FormData[]>();
+        // .single();
 
       if (error) throw error;
 
       toast.success("Lead submitted successfully!");
-      setNewLead(inserted);
+      setNewLead(inserted[0]);
       setShowThankYouModal(true);
     } catch (err: any) {
       console.error("Error submitting lead:", err);
@@ -322,15 +323,14 @@ export const LeadForm = () => {
 
           {/* Form Steps */}
           <form 
-            // onSubmit={(e) => {
-            //   e.preventDefault();
-            // }} 
-            onSubmit={handleSubmit(onSubmit)}
-            // onKeyDown={(e) => {
-            //   if (e.key === 'Enter') {
-            //     e.preventDefault();
-            //   }
-            // }}
+            onSubmit={(e) => {
+              e.preventDefault();
+            }} 
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+              }
+            }}
             className="space-y-6"
           >
             {/* Step 1: ZIP Code */}
