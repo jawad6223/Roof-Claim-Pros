@@ -206,15 +206,14 @@ const newLeadData = latest || {
   "Longitude": coords?.lng,
 };
 
-console.log("✅ New lead inserted:", newLeadData);
 setNewLead(newLeadData);
+console.log("newLeadData", newLeadData);
       setShowThankYouModal(true);
     } catch (err: any) {
       console.error("Error submitting lead:", err);
       toast.error("Failed to submit lead. Please try again.");
     }
   };
-console.log("newLead", newLead);
   const handleCopyLink = async () => {
     try {
       await navigator.clipboard.writeText(referralLink);
