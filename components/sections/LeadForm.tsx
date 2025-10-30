@@ -168,26 +168,46 @@ export const LeadForm = () => {
 
   const onSubmit = async (data: FormData) => {
     try {
-      const res = await fetch("/api/lead-submit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          address: data.address,
-          firstName: data.firstName,
-          lastName: data.lastName,
-          phoneNumber: data.phoneNumber,
-          email: data.email,
-          insuredBy: data.insuredBy,
-          policyNumber: data.policyNumber,
-          coords,
-        }),
-      });
-      if (!res.ok) throw new Error("Lead submit failed");
-      const { lead } = await res.json();
+      const { data: insertedData, error } = await supabase.from("Leads_Data").insert([
+        {
+          "Property Address": data.address,
+          "First Name": data.firstName,
+          "Last Name": data.lastName,
+          "Phone Number": data.phoneNumber,
+          "Email Address": data.email,
+          "Insurance Company": data.insuredBy,
+          "Policy Number": data.policyNumber,
+          Status: "open",
+          "Latitude": coords?.lat,
+          "Longitude": coords?.lng,
+        }])
+
+      if (error) throw error;
 
       toast.success("Lead submitted successfully!");
-      setNewLead(lead);
-      console.log("✅ New lead inserted:", lead);
+      const { data: latest, error: fetchError } = await supabase
+  .from("Leads_Data")
+  .select("*")
+  .eq("Email Address", data.email)
+  .order("id", { ascending: false })
+  .limit(1)
+  .maybeSingle();
+
+const newLeadData = latest || {
+  "Property Address": data.address,
+  "First Name": data.firstName,
+  "Last Name": data.lastName,
+  "Phone Number": data.phoneNumber,
+  "Email Address": data.email,
+  "Insurance Company": data.insuredBy,
+  "Policy Number": data.policyNumber,
+  Status: "open",
+  "Latitude": coords?.lat,
+  "Longitude": coords?.lng,
+};
+
+setNewLead(newLeadData);
+console.log("newLeadData", newLeadData);
       setShowThankYouModal(true);
     } catch (err: any) {
       console.error("Error submitting lead:", err);
