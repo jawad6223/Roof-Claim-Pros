@@ -270,7 +270,7 @@ export const LeadForm = () => {
 
   return (
     <>
-    {/*newLead && <AutoAssignNewLeads newLead={newLead} />*/}
+    {newLead && <AutoAssignNewLeads newLead={newLead} />}
       <section>
         <div className="bg-white rounded-3xl shadow-2xl p-8">
           <div className="text-center mb-8">
