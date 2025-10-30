@@ -43,7 +43,7 @@ export async function POST(request: Request) {
     const { data: pendingRequests, error: requestError } = await admin
       .from("Leads_Request")
       .select("*")
-      .eq("Status", "pending")
+      .ilike("Status", "pending")
       .order("created_at", { ascending: true });
 
     if (requestError) throw requestError;
