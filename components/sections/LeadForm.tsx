@@ -182,13 +182,12 @@ export const LeadForm = () => {
           "Longitude": coords?.lng,
         }])
         .select()
-        // .returns<FormData[]>();
-        // .single();
+        .single();
 
       if (error) throw error;
 
       toast.success("Lead submitted successfully!");
-      setNewLead(inserted[0]);
+      setNewLead(inserted);
       setShowThankYouModal(true);
     } catch (err: any) {
       console.error("Error submitting lead:", err);
