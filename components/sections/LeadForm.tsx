@@ -20,7 +20,6 @@ import { toast } from "react-toastify";
 import { AddressSuggestion } from "./ui/AddressSuggestion";
 import { PlacePrediction } from "@/types/AuthType";
 import { FormData } from "@/types/AuthType";
-import { AutoAssignNewLeads } from "@/lib/AutoAssignNewLeads";
 
 export const LeadForm = () => {
   const referralLink = "https://roof-claim-pros.vercel.app";
@@ -268,7 +267,7 @@ export const LeadForm = () => {
 
   return (
     <>
-    {newLead && <AutoAssignNewLeads newLead={newLead} />}
+    
       <section>
         <div className="bg-white rounded-3xl shadow-2xl p-8">
           <div className="text-center mb-8">
