@@ -20,7 +20,7 @@ import { toast } from "react-toastify";
 import { AddressSuggestion } from "./ui/AddressSuggestion";
 import { PlacePrediction } from "@/types/AuthType";
 import { FormData } from "@/types/AuthType";
-import { AutoAssignNewLeads } from "@/lib/AutoAssignNewLeads";
+// import { AutoAssignNewLeads } from "@/lib/AutoAssignNewLeads";
 
 export const LeadForm = () => {
   const referralLink = "https://roof-claim-pros.vercel.app";
@@ -30,7 +30,7 @@ export const LeadForm = () => {
   const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null);
   const [isAddressSelected, setIsAddressSelected] = useState(false);
   const [attemptedSteps, setAttemptedSteps] = useState<Set<number>>(new Set());
-  const [newLead, setNewLead] = useState(null);
+  // const [newLead, setNewLead] = useState(null);
 
   const {
     register,
@@ -167,6 +167,7 @@ export const LeadForm = () => {
   };
 
   const onSubmit = async (data: FormData) => {
+    console.log("data", data);
     try {
       const { data: inserted, error } = await supabase.from("Leads_Data").insert([
         {
@@ -187,7 +188,7 @@ export const LeadForm = () => {
       if (error) throw error;
 
       toast.success("Lead submitted successfully!");
-      setNewLead(inserted);
+      // setNewLead(inserted);
       setShowThankYouModal(true);
     } catch (err: any) {
       console.error("Error submitting lead:", err);
@@ -270,7 +271,7 @@ export const LeadForm = () => {
 
   return (
     <>
-    {newLead && <AutoAssignNewLeads newLead={newLead} />}
+    {/* newLead && <AutoAssignNewLeads newLead={newLead} /> */}
       <section>
         <div className="bg-white rounded-3xl shadow-2xl p-8">
           <div className="text-center mb-8">
