@@ -168,7 +168,7 @@ export const LeadForm = () => {
 
   const onSubmit = async (data: FormData) => {
     try {
-      const { data: inserted, error } = await supabase.from("Leads_Data").insert([
+      const { data: insertedData, error } = await supabase.from("Leads_Data").insert([
         {
           "Property Address": data.address,
           "First Name": data.firstName,
@@ -187,7 +187,9 @@ export const LeadForm = () => {
       if (error) throw error;
 
       toast.success("Lead submitted successfully!");
-      setNewLead(inserted);
+      const newLead = insertedData?.[0];
+console.log("✅ New lead inserted:", newLead);
+      setNewLead(newLead);
       setShowThankYouModal(true);
     } catch (err: any) {
       console.error("Error submitting lead:", err);
