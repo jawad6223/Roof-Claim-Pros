@@ -1,16 +1,16 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import haversineDistance from "@/utils/haversineDistance";
 import { toast } from "react-toastify";
 
 // ✅ Auto Assign Leads to Pending Contractors
 export const AutoAssignNewLeads = ({ newLead }: { newLead: any }) => {
-    const hasRun = useRef(false);
+    // const hasRun = useRef(false);
   useEffect(() => {
     const autoAssign = async () => {
-        if (!newLead || hasRun.current) return;
-        hasRun.current = true;
+        // if (!newLead || hasRun.current) return;
+        // hasRun.current = true;
 
       try {
         console.log("🚀 Auto-assign process started for:", newLead);

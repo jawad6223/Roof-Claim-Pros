@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { AddressSuggestionProps, PlacePrediction } from "@/types/AuthType";
@@ -19,7 +19,7 @@ export const AddressSuggestion: React.FC<AddressSuggestionProps> = ({
   const [showAddressSuggestions, setShowAddressSuggestions] = useState<boolean>(false);
   const [isLoadingAddresses, setIsLoadingAddresses] = useState(false);
   const [debounceTimer, setDebounceTimer] = useState<NodeJS.Timeout | null>(null);
-  const addressInputRef = useRef<HTMLInputElement>(null);
+  // const addressInputRef = useRef<HTMLInputElement>(null);
 
   const fetchAddressSuggestions = async (input: string) => {
     try {
@@ -84,21 +84,23 @@ export const AddressSuggestion: React.FC<AddressSuggestionProps> = ({
     }
   };
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (addressInputRef.current && !addressInputRef.current.contains(event.target as Node)) {
-        setShowAddressSuggestions(false);
-      }
-    };
+  // useEffect(() => {
+  //   const handleClickOutside = (event: MouseEvent) => {
+  //     if (addressInputRef.current && !addressInputRef.current.contains(event.target as Node)) {
+  //       setShowAddressSuggestions(false);
+  //     }
+  //   };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  //   document.addEventListener("mousedown", handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, []);
 
   return (
-    <div className="space-y-2" ref={addressInputRef}>
+    <div className="space-y-2" 
+    // ref={addressInputRef}
+    >
       <div className="relative">
         <Label htmlFor="address" className="text-sm font-semibold text-gray-700">
           {label} {required && "*"}
