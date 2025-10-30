@@ -181,7 +181,7 @@ export const LeadForm = () => {
           "Latitude": coords?.lat,
           "Longitude": coords?.lng,
         }])
-        .select()
+        // .select()
         .single();
 
       if (error) throw error;
