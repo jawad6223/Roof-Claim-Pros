@@ -30,7 +30,7 @@ export const LeadForm = () => {
   const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null);
   const [isAddressSelected, setIsAddressSelected] = useState(false);
   const [attemptedSteps, setAttemptedSteps] = useState<Set<number>>(new Set());
-  const [newLead, setNewLead] = useState<FormData | null>(null);
+  const [newLead, setNewLead] = useState<FormData>();
 
   const {
     register,
@@ -181,22 +181,40 @@ export const LeadForm = () => {
           "Latitude": coords?.lat,
           "Longitude": coords?.lng,
         }])
-        // .select()
-        .single();
 
       if (error) throw error;
 
       toast.success("Lead submitted successfully!");
-      const newLead = insertedData?.[0];
-console.log("✅ New lead inserted:", newLead);
-      setNewLead(newLead);
+      const { data: latest, error: fetchError } = await supabase
+  .from("Leads_Data")
+  .select("*")
+  .eq("Email Address", data.email)
+  .order("id", { ascending: false })
+  .limit(1)
+  .maybeSingle();
+
+const newLeadData = latest || {
+  "Property Address": data.address,
+  "First Name": data.firstName,
+  "Last Name": data.lastName,
+  "Phone Number": data.phoneNumber,
+  "Email Address": data.email,
+  "Insurance Company": data.insuredBy,
+  "Policy Number": data.policyNumber,
+  Status: "open",
+  "Latitude": coords?.lat,
+  "Longitude": coords?.lng,
+};
+
+console.log("✅ New lead inserted:", newLeadData);
+setNewLead(newLeadData);
       setShowThankYouModal(true);
     } catch (err: any) {
       console.error("Error submitting lead:", err);
       toast.error("Failed to submit lead. Please try again.");
     }
   };
-
+console.log("newLead", newLead);
   const handleCopyLink = async () => {
     try {
       await navigator.clipboard.writeText(referralLink);

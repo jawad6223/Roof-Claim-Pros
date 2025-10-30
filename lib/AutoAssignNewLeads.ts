@@ -6,11 +6,13 @@ import { toast } from "react-toastify";
 
 // ✅ Auto Assign Leads to Pending Contractors
 export const AutoAssignNewLeads = ({ newLead }: { newLead: any }) => {
-    const hasRun = useRef(false);
+    const lastProcessedLeadId = useRef<number | null>(null);
+    console.log("newLead", newLead);
   useEffect(() => {
     const autoAssign = async () => {
-        if (!newLead || hasRun.current) return;
-        hasRun.current = true;
+        if (!newLead || !newLead.id) return;
+        if (lastProcessedLeadId.current === newLead.id) return;
+        lastProcessedLeadId.current = newLead.id;
 
       try {
         console.log("🚀 Auto-assign process started for:", newLead);
