@@ -108,7 +108,7 @@ export default function Header() {
             </div> */}
 
             {/* Mobile Menu Button */}
-            <div className="md:hidden">
+            {/* <div className="md:hidden">
               <button
                 onClick={toggleMobileMenu}
                 className="text-gray-600 hover:text-blue-600 focus:outline-none p-2 rounded-lg transition-colors duration-200"
@@ -119,11 +119,11 @@ export default function Header() {
                   <Menu className="h-6 w-6" />
                 )}
               </button>
-            </div>
+            </div> */}
           </div>
 
           {/* Mobile Navigation */}
-          {isMobileMenuOpen && (
+          {/* {isMobileMenuOpen && (
             <div className="md:hidden pb-4 bg-white border-t border-gray-100">
               <div className="px-4 pt-4">
                 <button
@@ -138,7 +138,7 @@ export default function Header() {
                 </button>
               </div>
             </div>
-          )}
+          )} */}
         </div>
       </header>
 
