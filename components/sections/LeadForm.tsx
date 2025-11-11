@@ -221,13 +221,15 @@ export const LeadForm = () => {
   };
 
   const shareViaEmail = () => {
+    if (typeof window === "undefined") return;
     const subject = "Free Roof Inspection - Roof Claim Pros";
     const shareMessage =
       "I just got a FREE roof inspection from Roof Claim Pros! They help homeowners get insurance-covered roof replacements with zero out-of-pocket costs. Check them out!";
     const body = `${shareMessage}\n\n${referralLink}`;
-    window.location.href = `mailto:?subject=${encodeURIComponent(
+    const url = `https://mail.google.com/mail/?view=cm&fs=1&tf=1&su=${encodeURIComponent(
       subject
     )}&body=${encodeURIComponent(body)}`;
+    window.open(url, "_blank", "width=900,height=700");
   };
 
   const shareViaSMS = () => {
