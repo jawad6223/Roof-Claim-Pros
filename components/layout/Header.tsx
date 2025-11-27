@@ -5,7 +5,7 @@ import { scroller } from 'react-scroll';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { User, Menu, X } from 'lucide-react';
+import { User, Menu, X, Info, FileText } from 'lucide-react';
 import LoginModal from '@/components/auth/LoginModal';
 import RegisterModal from '@/components/auth/RegisterModal';
 
@@ -97,18 +97,37 @@ export default function Header() {
             </div>
 
             {/* Desktop Navigation Items */}
-            {/* <div className="hidden md:flex items-center">
-              <button
-                onClick={() => openModal('login')}
-                className="flex items-center space-x-2 bg-[#122E5F] hover:bg-[#0f2347] text-white px-6 py-2.5 rounded-lg transition-all duration-300 font-medium shadow-sm"
+            <div className="hidden md:flex items-center space-x-4">
+            <button
+                onClick={() =>
+                  scroller.scrollTo('how-it-works', {
+                    duration: 800,
+                    delay: 0,
+                    smooth: 'easeInOutQuart'
+                  })
+                }
+                className="flex items-center space-x-2 border border-[#122E5F] hover:bg-[#0f2347] hover:text-white text-[#122E5F] px-6 py-2.5 rounded-lg transition-all duration-300 font-medium shadow-sm"
               >
-                <User className="h-4 w-4" />
-                <span className="text-sm font-semibold">Pro Login</span>
+                {/* <Info className="h-4 w-4" /> */}
+                <span className="text-sm font-semibold">How it works</span>
               </button>
-            </div> */}
+              <button
+                onClick={() =>
+                  scroller.scrollTo('free-inspection-form', {
+                    duration: 800,
+                    delay: 0,
+                    smooth: 'easeInOutQuart'
+                  })
+                }
+                className="flex items-center space-x-2 bg-[#122E5F] hover:bg-transparent hover:text-[#122E5F] border hover:border-[#122E5F] text-white px-6 py-2.5 rounded-lg transition-all duration-300 font-medium shadow-sm"
+              >
+                {/* <FileText className="h-4 w-4" /> */}
+                <span className="text-sm font-semibold">Apply Now</span>
+              </button>
+            </div>
 
             {/* Mobile Menu Button */}
-            {/* <div className="md:hidden">
+            <div className="md:hidden">
               <button
                 onClick={toggleMobileMenu}
                 className="text-gray-600 hover:text-blue-600 focus:outline-none p-2 rounded-lg transition-colors duration-200"
@@ -119,26 +138,44 @@ export default function Header() {
                   <Menu className="h-6 w-6" />
                 )}
               </button>
-            </div> */}
+            </div>
           </div>
 
           {/* Mobile Navigation */}
-          {/* {isMobileMenuOpen && (
+          {isMobileMenuOpen && (
             <div className="md:hidden pb-4 bg-white border-t border-gray-100">
-              <div className="px-4 pt-4">
-                <button
-                  onClick={() => {
-                    openModal('login');
-                    setIsMobileMenuOpen(false);
-                  }}
-                  className="w-full flex items-center justify-center space-x-2 bg-[#122E5F] hover:bg-[#0f2347] text-white px-4 py-3 rounded-lg font-medium transition-all duration-300"
-                >
-                  <User className="h-4 w-4" />
-                  <span className="text-sm font-semibold">Pro Login</span>
-                </button>
+              <div className="px-4 pt-4 flex flex-col space-y-4">
+              <button
+                onClick={() => {
+                  scroller.scrollTo('how-it-works', {
+                    duration: 800,
+                    delay: 0,
+                    smooth: 'easeInOutQuart'
+                  });
+                  setIsMobileMenuOpen(false);
+                }}
+                className="flex items-center space-x-2 border border-[#122E5F] hover:bg-[#0f2347] hover:text-white text-[#122E5F] px-6 py-2.5 rounded-lg transition-all duration-300 font-medium shadow-sm"
+              >
+                {/* <Info className="h-4 w-4" /> */}
+                <span className="text-sm font-semibold">How it works</span>
+              </button>
+              <button
+                onClick={() => {
+                  scroller.scrollTo('free-inspection-form', {
+                    duration: 800,
+                    delay: 0,
+                    smooth: 'easeInOutQuart'
+                  });
+                  setIsMobileMenuOpen(false);
+                }}
+                className="flex items-center space-x-2 bg-[#122E5F] hover:bg-transparent hover:text-[#122E5F] border hover:border-[#122E5F] text-white px-6 py-2.5 rounded-lg transition-all duration-300 font-medium shadow-sm"
+              >
+                {/* <FileText className="h-4 w-4" /> */}
+                <span className="text-sm font-semibold">Apply Now</span>
+              </button>
               </div>
             </div>
-          )} */}
+          )}
         </div>
       </header>
 

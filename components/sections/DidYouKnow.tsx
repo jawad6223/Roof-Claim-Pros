@@ -17,7 +17,7 @@ const knowledgeCards = [
     id: 2,
     icon: Shield,
     title: "Insurance Coverage",
-    description: "Most policies cover 100% of hail damage repairs after your deductible. Put your insurance to work and get a new roof!",
+    description: "Covers your roof! You just cover your deductible.",
     stat: "100%",
     statLabel: "Coverage Available"
   },
@@ -25,7 +25,7 @@ const knowledgeCards = [
     id: 3,
     icon: Clock,
     title: "Time Limits",
-    description: "You only have 1 year from the storm date to file your insurance claim. Don't wait until it's too late.",
+    description: "You only have 1 year from the storm date to file your insurance claim.",
     stat: "1 Year",
     statLabel: "Filing Deadline"
   },
@@ -33,7 +33,7 @@ const knowledgeCards = [
     id: 4,
     icon: Award,
     title: "Expert Help",
-    description: "Professional claim assistance increases approval rates by 300%. Let our experts handle your claim.",
+    description: "Professional claim assistance increases approval rates by 300%. Let our experts handle it.",
     stat: "300%",
     statLabel: "Higher Success Rate"
   }

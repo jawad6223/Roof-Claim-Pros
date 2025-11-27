@@ -1,8 +1,8 @@
 'use client'
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import { scroller } from 'react-scroll';
+import { scroller, Element } from 'react-scroll';
 import { Search, FileText, Wrench, ArrowRight, CheckCircle, Shield, Star } from 'lucide-react';
 
 const steps = [
@@ -53,19 +53,74 @@ const steps = [
 export default function HowItWorks() {
   const [activeStep, setActiveStep] = useState(1);
   const [isVisible, setIsVisible] = useState(false);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const delayTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     setIsVisible(true);
 
-    // Auto-cycle through steps
-    const interval = setInterval(() => {
-      setActiveStep(prev => prev === 3 ? 1 : prev + 1);
-    }, 5000);
+    const startAutoAdvance = (delay: number) => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+      intervalRef.current = setInterval(() => {
+        setActiveStep(prev => prev === 3 ? 1 : prev + 1);
+      }, delay);
+    };
 
-    return () => clearInterval(interval);
+    startAutoAdvance(6000);
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+      if (delayTimeoutRef.current) {
+        clearTimeout(delayTimeoutRef.current);
+      }
+    };
   }, []);
 
+  const handleStepClick = (stepId: number) => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    if (delayTimeoutRef.current) {
+      clearTimeout(delayTimeoutRef.current);
+    }
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+
+    setActiveStep(stepId);
+
+    if (stepId === 2 || stepId === 3) {
+      timeoutRef.current = setTimeout(() => {
+        setActiveStep(prev => prev === 3 ? 1 : prev + 1);
+      }, 2000);
+
+      delayTimeoutRef.current = setTimeout(() => {
+        if (intervalRef.current) {
+          clearInterval(intervalRef.current);
+        }
+        intervalRef.current = setInterval(() => {
+          setActiveStep(prev => prev === 3 ? 1 : prev + 1);
+        }, 6000);
+      }, 15000);
+    } else {
+      delayTimeoutRef.current = setTimeout(() => {
+        intervalRef.current = setInterval(() => {
+          setActiveStep(prev => prev === 3 ? 1 : prev + 1);
+        }, 6000);
+      }, 15000);
+    }
+  };
+
   return (
+    <Element name="how-it-works">
     <section className="relative py-20 bg-white overflow-hidden">
       {/* Professional Background */}
       <div className="absolute inset-0">
@@ -106,7 +161,7 @@ export default function HowItWorks() {
             {steps.map((step, index) => (
               <button
                 key={step.id}
-                onClick={() => setActiveStep(step.id)}
+                onClick={() => handleStepClick(step.id)}
                 className={`relative group transition-all duration-300 ${activeStep === step.id ? 'scale-105' : 'hover:scale-105'
                   }`}
               >
@@ -271,5 +326,6 @@ export default function HowItWorks() {
         </div>
       </div>
     </section>
+    </Element>
   );
 }

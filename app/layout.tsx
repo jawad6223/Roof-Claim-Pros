@@ -34,6 +34,9 @@ const inter = localFont({
 export const metadata: Metadata = {
   title: 'Roof Claim Pros',
   description: 'Expert Roof Damage Claims You Can Trust',
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
 
 export default function RootLayout({

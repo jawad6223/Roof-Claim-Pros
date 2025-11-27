@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { validationSchema } from "@/validations/schema";
+import Image from "next/image";
 import {
   ArrowRight,
   ArrowLeft,
@@ -273,10 +274,8 @@ export const LeadForm = () => {
       <section>
         <div className="bg-white rounded-3xl shadow-2xl p-8">
           <div className="text-center mb-8">
-            <div className="flex items-center justify-center mb-4">
-              <div className="w-16 h-16 bg-[#122E5F] rounded-2xl flex items-center justify-center">
-                <Home className="h-8 w-8 text-white" />
-              </div>
+            <div className="flex items-center justify-center mb-3">
+              <Image src="/roofIcon.png" alt="logo" width={100} height={100} />
             </div>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
               Free Roof Inspection

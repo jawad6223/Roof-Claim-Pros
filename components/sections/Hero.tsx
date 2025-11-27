@@ -43,8 +43,8 @@ export default function Hero() {
                 </h1>
 
                 <p className="text-lg sm:text-xl md:text-2xl text-gray-300 leading-relaxed max-w-2xl lg:block hidden">
-                  Professional roofing experts help homeowners get insurance-covered roof replacements with
-                  <span className="text-[#2563eb] font-semibold"> zero out-of-pocket costs</span>.
+                85% of roofs have hail damage the homeowner never notices — 
+                  <span className="text-[#2563eb] font-semibold"> until we get them a free replacement!</span>.
                 </p>
               </div>
 
@@ -93,8 +93,8 @@ export default function Hero() {
             <div className="lg:hidden text-white space-y-6 order-3">
               {/* Mobile description */}
               <p className="text-lg text-gray-300 leading-relaxed text-center">
-                Professional roofing experts help homeowners get insurance-covered roof replacements with
-                <span className="text-[#2563eb] font-semibold"> zero out-of-pocket costs</span>.
+              85% of roofs have hail damage the homeowner never notices — 
+                <span className="text-[#2563eb] font-semibold"> until we get them a free replacement!</span>.
               </p>
 
               {/* Mobile Professional Features */}
