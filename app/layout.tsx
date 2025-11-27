@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Loader from '@/components/ui/Loader';
 
 const inter = localFont({
   src: [
@@ -46,7 +47,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <Loader />
+        {children}
+      </body>
       <ToastContainer position="top-right" autoClose={3000} theme="colored" />
     </html>
   );

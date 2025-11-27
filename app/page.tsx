@@ -11,7 +11,7 @@ import Footer from '@/components/layout/Footer';
 
 export default function Home() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    // <Suspense fallback={<div>Loading...</div>}>
       <div className="min-h-screen">
         <Header />
         <Hero />
@@ -23,6 +23,6 @@ export default function Home() {
         <MoneyOnTableSection />
         <Footer />
       </div>
-    </Suspense>
+    // </Suspense>
   );
 }
