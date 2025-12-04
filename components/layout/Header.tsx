@@ -16,14 +16,14 @@ export default function Header() {
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState<'login' | 'register'>('login');
 
-  useEffect(() => {
-    // Check if user is already logged in
-    const loggedInUser = localStorage.getItem('loggedInUser');
-    if (loggedInUser) {
-      // router.push('/dashboard');
-      router.push('/');
-    }
-  }, [router]);
+  // useEffect(() => {
+  //   // Check if user is already logged in
+  //   const loggedInUser = localStorage.getItem('loggedInUser');
+  //   if (loggedInUser) {
+  //     // router.push('/dashboard');
+  //     router.push('/');
+  //   }
+  // }, [router]);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
