@@ -77,7 +77,7 @@ export default function Header() {
                         smooth: 'easeInOutQuart'
                       })
                     }
-                    src="/roofing-logo.png"
+                    src="/roofing-logo.webp"
                     alt="Logo"
                     fill
                     className="object-contain cursor-pointer"

@@ -33,8 +33,8 @@ const inter = localFont({
 });
 
 export const metadata: Metadata = {
-  title: 'Roof Claim Pros',
-  description: 'Expert Roof Damage Claims You Can Trust',
+  title: 'Free Roof Quotes | Storm Damage Roof Replacement',
+  description: 'Get fast, free roof replacement quotes after storm damage. Licensed and insured contractors ready to help.',
   icons: {
     icon: '/favicon.ico',
   },

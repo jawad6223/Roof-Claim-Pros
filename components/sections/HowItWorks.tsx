@@ -65,7 +65,7 @@ export default function HowItWorks() {
         clearInterval(intervalRef.current);
       }
       intervalRef.current = setInterval(() => {
-        setActiveStep(prev => prev === 3 ? 1 : prev + 1);
+      setActiveStep(prev => prev === 3 ? 1 : prev + 1);
       }, delay);
     };
 
