@@ -31,7 +31,7 @@ export default function TermsOfService() {
                 We are Roof Claim Pros ("Company," "we," "us," "our"), a company registered in California, United States at California, California, CA 90001.
               </p>
               <p className="text-gray-700 leading-relaxed text-lg mb-4">
-                We operate the website <a href="https://roofing-contractor-crm-inky.vercel.app" className="text-[#2563eb] hover:underline" target="_blank" rel="noopener noreferrer">https://roofing-contractor-crm-inky.vercel.app</a> (the "Site"), as well as any other related products and services that refer or link to these legal terms (the "Legal Terms") (collectively, the "Services").
+                We operate the website <a href="https://roof-claim-pros.vercel.app" className="text-[#2563eb] hover:underline" target="_blank" rel="noopener noreferrer">https://roof-claim-pros.vercel.app</a> (the "Site"), as well as any other related products and services that refer or link to these legal terms (the "Legal Terms") (collectively, the "Services").
               </p>
               <p className="text-gray-700 leading-relaxed text-lg mb-4">
                 Roof Claim Pros helps homeowners get free roof replacement quotes after storm damage. We connect homeowners with licensed and insured contractors quickly and safely.
@@ -342,7 +342,7 @@ export default function TermsOfService() {
               </div>
               <div className="prose prose-lg max-w-none">
                 <p className="text-gray-700 mb-4">
-                  We care about data privacy and security. Please review our Privacy Policy: <a href="/privacy-policy" className="text-[#2563eb] hover:underline">https://roofing-contractor-crm-inky.vercel.app/privacy-policy</a>. By using the Services, you agree to be bound by our Privacy Policy, which is incorporated into these Legal Terms. Please be advised the Services are hosted in the United States. If you access the Services from any other region of the world with laws or other requirements governing personal data collection, use, or disclosure that differ from applicable laws in the United States, then through your continued use of the Services, you are transferring your data to the United States, and you expressly consent to have your data transferred to and processed in the United States.
+                  We care about data privacy and security. Please review our Privacy Policy: <a href="/privacy-policy" className="text-[#2563eb] hover:underline">https://roof-claim-pros.vercel.app/privacy-policy</a>. By using the Services, you agree to be bound by our Privacy Policy, which is incorporated into these Legal Terms. Please be advised the Services are hosted in the United States. If you access the Services from any other region of the world with laws or other requirements governing personal data collection, use, or disclosure that differ from applicable laws in the United States, then through your continued use of the Services, you are transferring your data to the United States, and you expressly consent to have your data transferred to and processed in the United States.
                 </p>
               </div>
             </section>

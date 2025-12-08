@@ -71,11 +71,12 @@ export default function Header() {
                 <div className="relative w-40 h-40 mt-2 sm:w-40 sm:h-40 flex-shrink-0 flex items-center justify-center">
                   <Image
                     onClick={() =>
-                      scroller.scrollTo('free-inspection-form', {
-                        duration: 800,
-                        delay: 0,
-                        smooth: 'easeInOutQuart'
-                      })
+                      // scroller.scrollTo('free-inspection-form', {
+                      //   duration: 800,
+                      //   delay: 0,
+                      //   smooth: 'easeInOutQuart'
+                      // })
+                      router.push('/')
                     }
                     src="/roofing-logo.webp"
                     alt="Logo"

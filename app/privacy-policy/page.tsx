@@ -27,7 +27,7 @@ export default function PrivacyPolicy() {
                 This Privacy Notice for Roof Claim Pros ("we," "us," or "our"), describes how and why we might access, collect, store, use, and/or share ("process") your personal information when you use our services ("Services"), including when you:
               </p>
               <ul className="list-disc pl-6 space-y-2 text-gray-700">
-                <li>Visit our website at <a href="https://roofing-contractor-crm-inky.vercel.app/" className="text-[#2563eb] hover:underline" target="_blank" rel="noopener noreferrer">https://roofing-contractor-crm-inky.vercel.app/</a> or any website of ours that links to this Privacy Notice</li>
+                <li>Visit our website at <a href="https://roof-claim-pros.vercel.app" className="text-[#2563eb] hover:underline" target="_blank" rel="noopener noreferrer">https://roof-claim-pros.vercel.app</a> or any website of ours that links to this Privacy Notice</li>
                 <li>Use Roof Claim Pros. Roof Claim Pros helps homeowners get free roof replacement quotes after storm damage. We connect homeowners with licensed and insured contractors quickly and safely.</li>
                 <li>Engage with us in other related ways, including any marketing or events</li>
               </ul>
@@ -77,7 +77,7 @@ export default function PrivacyPolicy() {
                 </div>
                 <div className="bg-white rounded-lg p-5 border border-gray-200">
                   <h3 className="font-semibold text-gray-900 mb-2">How do you exercise your rights?</h3>
-                  <p className="text-gray-600 text-sm">The easiest way to exercise your rights is by visiting <a href="https://roofing-contractor-crm-inky.vercel.app/contractor/settings" className="text-[#2563eb] hover:underline" target="_blank" rel="noopener noreferrer">https://roofing-contractor-crm-inky.vercel.app/contractor/settings</a>, or by contacting us. We will consider and act upon any request in accordance with applicable data protection laws.</p>
+                  <p className="text-gray-600 text-sm">The easiest way to exercise your rights is by visiting <a href="https://roof-claim-pros.vercel.app" className="text-[#2563eb] hover:underline" target="_blank" rel="noopener noreferrer">https://roof-claim-pros.vercel.app</a>, or by contacting us. We will consider and act upon any request in accordance with applicable data protection laws.</p>
                 </div>
               </div>
             </section>
@@ -473,7 +473,7 @@ export default function PrivacyPolicy() {
                 </ul>
                 <h3 className="text-xl font-semibold text-gray-900 mb-4">How to Exercise Your Rights</h3>
                 <p className="text-gray-700 mb-4">
-                  To exercise these rights, you can contact us by visiting <a href="https://roofing-contractor-crm-inky.vercel.app/contractor/settings" className="text-[#2563eb] hover:underline" target="_blank" rel="noopener noreferrer">https://roofing-contractor-crm-inky.vercel.app/contractor/settings</a>, by emailing us at <a href="mailto:roofing@gmail.com" className="text-[#2563eb] hover:underline">roofing@gmail.com</a>, or by referring to the contact details at the bottom of this document.
+                  To exercise these rights, you can contact us by visiting <a href="https://roof-claim-pros.vercel.app" className="text-[#2563eb] hover:underline" target="_blank" rel="noopener noreferrer">https://roof-claim-pros.vercel.app</a>, by emailing us at <a href="mailto:roofing@gmail.com" className="text-[#2563eb] hover:underline">roofing@gmail.com</a>, or by referring to the contact details at the bottom of this document.
                 </p>
                 <p className="text-gray-700 mb-4">
                   Under certain US state data protection laws, you can designate an authorized agent to make a request on your behalf. We may deny a request from an authorized agent that does not submit proof that they have been validly authorized to act on your behalf in accordance with applicable laws.
@@ -539,7 +539,7 @@ export default function PrivacyPolicy() {
               </div>
               <div className="prose prose-lg max-w-none">
                 <p className="text-gray-700 mb-4">
-                  Based on the applicable laws of your country or state of residence in the US, you may have the right to request access to the personal information we collect from you, details about how we have processed it, correct inaccuracies, or delete your personal information. You may also have the right to withdraw your consent to our processing of your personal information. These rights may be limited in some circumstances by applicable law. To request to review, update, or delete your personal information, please visit: <a href="https://roofing-contractor-crm-inky.vercel.app/contractor/settings" className="text-[#2563eb] hover:underline flex items-center space-x-1" target="_blank" rel="noopener noreferrer"><span>https://roofing-contractor-crm-inky.vercel.app/contractor/settings</span> <ExternalLink className="h-4 w-4 inline" /></a>.
+                  Based on the applicable laws of your country or state of residence in the US, you may have the right to request access to the personal information we collect from you, details about how we have processed it, correct inaccuracies, or delete your personal information. You may also have the right to withdraw your consent to our processing of your personal information. These rights may be limited in some circumstances by applicable law. To request to review, update, or delete your personal information, please visit: <a href="https://roof-claim-pros.vercel.app" className="text-[#2563eb] hover:underline flex items-center space-x-1" target="_blank" rel="noopener noreferrer"><span>https://roof-claim-pros.vercel.app</span> <ExternalLink className="h-4 w-4 inline" /></a>.
                 </p>
               </div>
             </section>

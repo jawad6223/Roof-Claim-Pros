@@ -4,6 +4,7 @@ import localFont from 'next/font/local';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Loader from '@/components/ui/Loader';
+import GTM from '@/components/layout/GTM';
 
 const inter = localFont({
   src: [
@@ -47,6 +48,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <GTM gtmId="GTM-KH98QBKQ" />
+      </head>
       <body className={inter.className}>
         <Loader />
         {children}

@@ -1,6 +1,7 @@
 import { Suspense } from 'react';
 import Header from '@/components/layout/Header';
 import Hero from '@/components/sections/Hero';
+import { TrustSignals } from '@/components/sections/TrustSignals';
 import Testimonials from '@/components/sections/Testimonials';
 import DidYouKnow from '@/components/sections/DidYouKnow';
 import HowItWorks from '@/components/sections/HowItWorks';
@@ -15,6 +16,7 @@ export default function Home() {
       <div className="min-h-screen">
         <Header />
         <Hero />
+        <TrustSignals />
         <DidYouKnow />
         <HowItWorks />
         <TrustedByThousands />
