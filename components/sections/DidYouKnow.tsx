@@ -2,42 +2,8 @@
 
 import React from 'react';
 import { scroller } from 'react-scroll';
-import { AlertTriangle, Shield, Clock, Award, Eye, CheckCircle } from 'lucide-react';
-
-const knowledgeCards = [
-  {
-    id: 1,
-    icon: AlertTriangle,
-    title: "Hidden Damage",
-    description: "Hail damage isn't always visible but can cause leaks and structural issues over time. Most customers don't even realize they have damage.",
-    stat: "85%",
-    statLabel: "Damage Goes Unnoticed"
-  },
-  {
-    id: 2,
-    icon: Shield,
-    title: "Insurance Coverage",
-    description: "Covers your roof! You just cover your deductible.",
-    stat: "100%",
-    statLabel: "Coverage Available"
-  },
-  {
-    id: 3,
-    icon: Clock,
-    title: "Time Limits",
-    description: "You only have 1 year from the storm date to file your insurance claim.",
-    stat: "1 Year",
-    statLabel: "Filing Deadline"
-  },
-  {
-    id: 4,
-    icon: Award,
-    title: "Expert Help",
-    description: "Professional claim assistance increases approval rates by 300%. Let our experts handle it.",
-    stat: "300%",
-    statLabel: "Higher Success Rate"
-  }
-];
+import { Eye, CheckCircle } from 'lucide-react';
+import { didYouKnowCards } from '@/data/sectionsData';
 
 export default function DidYouKnow() {
   return (
@@ -71,7 +37,7 @@ export default function DidYouKnow() {
 
         {/* Knowledge Cards Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-          {knowledgeCards.map((card, index) => {
+          {didYouKnowCards.map((card, index) => {
             const IconComponent = card.icon;
 
             return (
@@ -92,12 +58,10 @@ export default function DidYouKnow() {
                     </div>
                   </div>
 
-                  {/* Title */}
                   <h3 className="text-lg font-bold text-gray-900 text-center mb-4 px-2">
                     {card.title}
                   </h3>
 
-                  {/* Description - Same Height for All Cards */}
                   <div className="flex-grow flex items-center mb-4 px-2">
                     <p
                       className="text-gray-600 text-center leading-relaxed text-sm overflow-y-auto scrollbar-hide"

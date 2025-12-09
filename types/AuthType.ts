@@ -28,3 +28,9 @@ export interface PlacePrediction {
     insuredBy: string;
     policyNumber: string;
   }
+
+  export type City = {
+    name: string;
+    state: string;
+    description: string;
+  };

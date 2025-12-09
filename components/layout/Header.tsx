@@ -1,11 +1,10 @@
 'use client'
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { scroller } from 'react-scroll';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import Image from 'next/image';
-import { User, Menu, X, Info, FileText } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import LoginModal from '@/components/auth/LoginModal';
 import RegisterModal from '@/components/auth/RegisterModal';
 
@@ -15,15 +14,6 @@ export default function Header() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState<'login' | 'register'>('login');
-
-  // useEffect(() => {
-  //   // Check if user is already logged in
-  //   const loggedInUser = localStorage.getItem('loggedInUser');
-  //   if (loggedInUser) {
-  //     // router.push('/dashboard');
-  //     router.push('/');
-  //   }
-  // }, [router]);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -60,41 +50,18 @@ export default function Header() {
           <div className="flex items-center justify-between h-16">
 
             <div className="flex items-center space-x-4">
-              {/* Replace with your logo */}
-              {/* <div className="flex items-center space-x-3">
-                <div className="relative w-24 h-24">
-                  <Image src="/roofing-logo.jpeg" alt="Logo" width={128} height={128} className="object-contain h-full w-full" />
-                </div>
-              </div> */}
 
               <div className="flex items-center md:space-x-4">
                 <div className="relative w-40 h-40 mt-2 sm:w-40 sm:h-40 flex-shrink-0 flex items-center justify-center">
                   <Image
-                    onClick={() =>
-                      // scroller.scrollTo('free-inspection-form', {
-                      //   duration: 800,
-                      //   delay: 0,
-                      //   smooth: 'easeInOutQuart'
-                      // })
-                      router.push('/')
-                    }
+                    onClick={() => router.push('/')}
                     src="/roofing-logo.webp"
                     alt="Logo"
                     fill
                     className="object-contain cursor-pointer"
                   />
                 </div>
-                {/* <div className="flex flex-col justify-center mt-2">
-                  <h1 className="text-base sm:text-lg md:text-xl font-bold text-[#2563eb] whitespace-nowrap">
-                    RoofClaimPros
-                  </h1>
-                  <p className="text-[10px] sm:text-xs md:text-sm text-[#122E5F] font-medium whitespace-nowrap">
-                    Professional Roofing Services
-                  </p>
-                </div> */}
               </div>
-
-
             </div>
 
             {/* Desktop Navigation Items */}
@@ -109,7 +76,6 @@ export default function Header() {
                 }
                 className="flex items-center space-x-2 border border-[#122E5F] hover:bg-[#0f2347] hover:text-white text-[#122E5F] px-6 py-2.5 rounded-lg transition-all duration-300 font-medium shadow-sm"
               >
-                {/* <Info className="h-4 w-4" /> */}
                 <span className="text-sm font-semibold">How it works</span>
               </button>
               <button
@@ -122,7 +88,6 @@ export default function Header() {
                 }
                 className="flex items-center space-x-2 bg-[#122E5F] hover:bg-transparent hover:text-[#122E5F] border hover:border-[#122E5F] text-white px-6 py-2.5 rounded-lg transition-all duration-300 font-medium shadow-sm"
               >
-                {/* <FileText className="h-4 w-4" /> */}
                 <span className="text-sm font-semibold">Apply Now</span>
               </button>
             </div>
@@ -157,7 +122,6 @@ export default function Header() {
                 }}
                 className="flex items-center space-x-2 border border-[#122E5F] hover:bg-[#0f2347] hover:text-white text-[#122E5F] px-6 py-2.5 rounded-lg transition-all duration-300 font-medium shadow-sm"
               >
-                {/* <Info className="h-4 w-4" /> */}
                 <span className="text-sm font-semibold">How it works</span>
               </button>
               <button
@@ -171,7 +135,6 @@ export default function Header() {
                 }}
                 className="flex items-center space-x-2 bg-[#122E5F] hover:bg-transparent hover:text-[#122E5F] border hover:border-[#122E5F] text-white px-6 py-2.5 rounded-lg transition-all duration-300 font-medium shadow-sm"
               >
-                {/* <FileText className="h-4 w-4" /> */}
                 <span className="text-sm font-semibold">Apply Now</span>
               </button>
               </div>

@@ -1,45 +1,8 @@
 import { Star } from "lucide-react";
 import Image from "next/image";
+import { reviews } from "@/data/sectionsData";
 
 export const TrustSignals = () => {
-  const reviews = [
-    {
-      name: "David Thompson",
-      location: "Dallas, TX",
-      review: "Got my roof replaced completely free! The team was professional and handled everything with my insurance.",
-      photo: "/testimonial/Pic-1.webp"
-    },
-    {
-      name: "Michael Chen",
-      location: "Houston, TX",
-      review: "Amazing service! They made the entire process so easy. Highly recommend to anyone needing roof work.",
-      photo: "/testimonial/Pic-2.webp"
-    },
-    {
-      name: "Mike Chen",
-      location: "Austin, TX",
-      review: "Free inspection led to a full roof replacement.",
-      photo: "/testimonial/Pic-3.webp"
-    },
-    {
-      name: "Sarah Johnson",
-      location: "San Antonio, TX",
-      review: "Professional team from start to finish. The insurance claim process was seamless.",
-      photo: "/testimonial/Pic-4.webp"
-    },
-    {
-      name: "Emily Rodriguez",
-      location: "Fort Worth, TX",
-      review: "Best decision I made! They handled everything and I only paid my deductible.",
-      photo: "/testimonial/Pic-5.webp"
-    },
-    {
-      name: "Robert Williams",
-      location: "El Paso, TX",
-      review: "Outstanding service! The inspection was thorough and the roof replacement was top quality.",
-      photo: "/testimonial/Pic-6.webp"
-    }
-  ];
 
   return (
     <section className="bg-white py-12">
@@ -110,4 +73,3 @@ export const TrustSignals = () => {
     </section>
   );
 };
-

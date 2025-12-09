@@ -2,61 +2,8 @@
 import React from 'react';
 import Image from 'next/image';
 import { scroller } from 'react-scroll';
-import { Shield, Award, Users, CheckCircle, Star, Clock, TrendingUp } from 'lucide-react';
-
-const trustFeatures = [
-  {
-    id: 1,
-    icon: Shield,
-    text: "Licensed and insured in all 50 states",
-    color: "emerald"
-  },
-  {
-    id: 2,
-    icon: Clock,
-    text: "Over 15 years of roofing experience",
-    color: "blue"
-  },
-  {
-    id: 3,
-    icon: Award,
-    text: "A+ Better Business Bureau rating",
-    color: "amber"
-  },
-  {
-    id: 4,
-    icon: TrendingUp,
-    text: "Million-dollar liability insurance",
-    color: "purple"
-  }
-];
-
-const stats = [
-  {
-    id: 1,
-    number: "10,000+",
-    label: "Happy Customers",
-    icon: Users
-  },
-  {
-    id: 2,
-    number: "99.7%",
-    label: "Approval Rate",
-    icon: CheckCircle
-  },
-  {
-    id: 3,
-    number: "4.9/5",
-    label: "Customer Rating",
-    icon: Star
-  },
-  {
-    id: 4,
-    number: "$180M+",
-    label: "Claims Processed",
-    icon: TrendingUp
-  }
-];
+import { Shield, Award, Users, CheckCircle, Star } from 'lucide-react';
+import { trustFeatures, stats } from '@/data/sectionsData';
 
 export default function TrustedByThousands() {
   return (

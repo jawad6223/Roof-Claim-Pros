@@ -1,7 +1,9 @@
 'use client'
 
 import React from 'react';
-import { Phone, Shield, Zap, Star, Sparkles } from 'lucide-react';
+import { Phone, Shield, Zap, Star, Sparkles, FileText, Lock } from 'lucide-react';
+import { footerServices } from '@/data/sectionsData';
+import Link from 'next/link';
 
 export default function Footer() {
   return (
@@ -55,12 +57,7 @@ export default function Footer() {
             </h4>
             
             <div className="space-y-3">
-              {[
-                'Hail Damage Inspection',
-                'Insurance Claim Filing', 
-                'Roof Replacement',
-                'Emergency Repairs'
-              ].map((service, index) => (
+              {footerServices.map((service: string, index: number) => (
                 <div
                   key={index}
                   className="group flex items-center space-x-3 p-2 rounded-lg hover:bg-white/5 transition-all duration-300 cursor-pointer"
@@ -77,23 +74,15 @@ export default function Footer() {
           {/* Contact */}
           <div className="space-y-6">
             <h4 className="text-xl font-bold text-white mb-4 flex items-center">
-              {/* <Phone className="h-5 w-5 text-[#2563eb] mr-2" /> */}
               Contact
             </h4>
             
             <div className="space-y-4">
-              {/* Phone Number */}
               <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4">
                 <div className="flex items-center space-x-3 mb-2">
                   <Phone className="h-5 w-5 text-[#2563eb]" />
                   <span className="text-[#2563eb] font-semibold">24/7 Emergency Service</span>
                 </div>
-                {/* <a 
-                  href="tel:1-800-ROOF-PRO"
-                  className="text-2xl font-bold text-white hover:text-[#2563eb] transition-colors block"
-                >
-                  1-800-ROOF-PRO
-                </a> */}
                 <p className="text-gray-300 text-sm mt-1">
                   Available nationwide for emergency repairs
                 </p>
@@ -115,10 +104,33 @@ export default function Footer() {
 
         {/* Bottom Section */}
         <div className="relative">
-          {/* Professional divider */}
           <div className="border-t border-white/10 mb-8"></div>
           
-          <div className="text-center">
+          <div className="text-center space-y-6">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+              <Link 
+                href="/privacy-policy"
+                className="group flex items-center gap-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg px-5 py-2.5 hover:bg-white/10 hover:border-[#2563eb]/50 transition-all duration-300"
+              >
+                <Lock className="h-4 w-4 text-[#2563eb] group-hover:scale-110 transition-transform" />
+                <span className="text-gray-300 group-hover:text-white text-sm font-medium transition-colors">
+                  Privacy Policy
+                </span>
+              </Link>
+              
+              <div className="hidden sm:block w-1 h-1 bg-gray-600 rounded-full"></div>
+              
+              <Link 
+                href="/terms-of-service"
+                className="group flex items-center gap-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg px-5 py-2.5 hover:bg-white/10 hover:border-[#2563eb]/50 transition-all duration-300"
+              >
+                <FileText className="h-4 w-4 text-[#2563eb] group-hover:scale-110 transition-transform" />
+                <span className="text-gray-300 group-hover:text-white text-sm font-medium transition-colors">
+                  Terms of Service
+                </span>
+              </Link>
+            </div>
+            
             <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl px-6 py-3 inline-block">
               <p className="text-gray-400 text-sm">
                 © 2024 Roof Claim Pros. All rights reserved. Licensed, bonded, and insured.
@@ -126,17 +138,17 @@ export default function Footer() {
             </div>
             
             {/* Trust Indicators */}
-            <div className="flex justify-center items-center space-x-6 mt-6">
+            <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-6">
               <div className="flex items-center space-x-2">
                 <Star className="h-4 w-4 text-[#2563eb] fill-current" />
                 <span className="text-gray-400 text-xs">A+ BBB Rating</span>
               </div>
-              <div className="w-1 h-1 bg-gray-600 rounded-full"></div>
+              <div className="hidden sm:block w-1 h-1 bg-gray-600 rounded-full"></div>
               <div className="flex items-center space-x-2">
                 <Shield className="h-4 w-4 text-[#2563eb]" />
                 <span className="text-gray-400 text-xs">Fully Insured</span>
               </div>
-              <div className="w-1 h-1 bg-gray-600 rounded-full"></div>
+              <div className="hidden sm:block w-1 h-1 bg-gray-600 rounded-full"></div>
               <div className="flex items-center space-x-2">
                 <Sparkles className="h-4 w-4 text-[#2563eb]" />
                 <span className="text-gray-400 text-xs">99.7% Success Rate</span>

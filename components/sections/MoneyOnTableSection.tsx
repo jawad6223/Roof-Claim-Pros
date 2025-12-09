@@ -2,30 +2,7 @@
 
 import React from "react";
 import { DollarSign, Clock, Award, CheckCircle } from "lucide-react";
-
-const moneyOnTableCards = [
-  {
-    id: 1,
-    icon: DollarSign,
-    title: "$0 Upfront Cost",
-    description: "No money out of pocket until your insurance claim is approved and processed",
-    features: ["Zero upfront payment", "Pay only deductible"],
-  },
-  {
-    id: 2,
-    icon: Clock,
-    title: "24-Hour Response",
-    description: "We'll inspect your roof within 24 hours and start your claim process immediately.",
-    features: ["Fast inspection", "Quick claim filing"],
-  },
-  {
-    id: 3,
-    icon: Award,
-    title: "Lifetime Warranty",
-    description: "All of our roofs come with comprehensive warranties.",
-    features: ["Full coverage", "Peace of mind"],
-  },
-];
+import { moneyOnTableCards } from '@/data/sectionsData';
 
 export default function MoneyOnTableSection() {
   return (

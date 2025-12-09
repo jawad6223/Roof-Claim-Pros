@@ -3,52 +3,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { scroller, Element } from 'react-scroll';
-import { Search, FileText, Wrench, ArrowRight, CheckCircle, Shield, Star } from 'lucide-react';
-
-const steps = [
-  {
-    id: 1,
-    number: "01",
-    title: "Free Professional Inspection",
-    subtitle: "Expert Damage Detection",
-    description: "Our licensed roofing experts conduct a comprehensive roof inspection at no cost to you. Professional assessment and drone analysis detect all types of damage.",
-    icon: Search,
-    color: "blue",
-    gradient: "from-blue-600 to-blue-500",
-    bgGradient: "from-blue-600/10 to-blue-500/10",
-    borderColor: "border-blue-400/30",
-    features: ["Professional Analysis", "Drone Technology", "Expert Assessment", "Zero Cost to You"],
-    image: "/process-1.png"
-  },
-  {
-    id: 2,
-    number: "02",
-    title: "Insurance Claim Filing",
-    subtitle: "Expert Claim Management",
-    description: "We handle all paperwork and work directly with your insurance company using our proprietary claim optimization system. Our 99.7% approval rate speaks for itself.",
-    icon: FileText,
-    color: "purple",
-    gradient: "from-blue-700 to-blue-600",
-    bgGradient: "from-blue-700/10 to-blue-600/10",
-    borderColor: "border-blue-500/30",
-    features: ["99.7% Approval Rate", "Zero Paperwork", "Direct Insurance Contact", "Claim Optimization"],
-    image: "/process-2.png"
-  },
-  {
-    id: 3,
-    number: "03",
-    title: "Professional Installation",
-    subtitle: "Premium Roof Replacement",
-    description: "Top-rated local contractors install your premium new roof using the finest materials. You pay only your insurance deductible - we handle the rest completely.",
-    icon: Wrench,
-    color: "emerald",
-    gradient: "from-green-600 to-green-500",
-    bgGradient: "from-green-600/10 to-green-500/10",
-    borderColor: "border-green-400/30",
-    features: ["Premium Materials", "Licensed Contractors", "Lifetime Warranty", "Deductible Only"],
-    image: "/process-3.png"
-  }
-];
+import { ArrowRight, CheckCircle, Shield, Star } from 'lucide-react';
+import { howItWorksSteps } from '@/data/sectionsData';
 
 export default function HowItWorks() {
   const [activeStep, setActiveStep] = useState(1);
@@ -158,7 +114,7 @@ export default function HowItWorks() {
         {/* Step Navigation */}
         <div className="flex justify-center mb-12">
           <div className="flex space-x-4">
-            {steps.map((step, index) => (
+            {howItWorksSteps.map((step, index) => (
               <button
                 key={step.id}
                 onClick={() => handleStepClick(step.id)}
@@ -174,7 +130,7 @@ export default function HowItWorks() {
                 </div>
 
                 {/* Connection line */}
-                {index < steps.length - 1 && (
+                {index < howItWorksSteps.length - 1 && (
                   <div className="absolute top-8 left-16 w-20 h-0.5 bg-gray-300">
                     <div className={`h-full bg-[#2563eb] transition-all duration-1000 ${activeStep > step.id ? 'w-full' : 'w-0'
                       }`}></div>
@@ -189,7 +145,7 @@ export default function HowItWorks() {
         <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
           {/* Left: Step Details */}
           <div className="space-y-8">
-            {steps.map((step) => (
+            {howItWorksSteps.map((step) => (
               <div
                 key={step.id}
                 className={`transition-all duration-700 ${activeStep === step.id
@@ -244,7 +200,7 @@ export default function HowItWorks() {
 
           {/* Right: Visual Display */}
           <div className="relative">
-            {steps.map((step) => (
+            {howItWorksSteps.map((step) => (
               <div
                 key={step.id}
                 className={`transition-all duration-700 ${activeStep === step.id
