@@ -9,7 +9,7 @@ export const TrustSignals = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="space-y-6">
           <div className="text-center">
-            <p className="text-sm text-gray-500 mb-4 font-medium">As seen on</p>
+            <p className="text-3xl text-gray-500 mb-4 font-medium">As seen on</p>
             <div className="flex items-center justify-center gap-6 flex-wrap">
               <div className="bg-white border-2 border-gray-200 rounded-lg px-6 py-3 shadow-sm">
                 <span className="text-2xl font-bold text-gray-900">ABC</span>
