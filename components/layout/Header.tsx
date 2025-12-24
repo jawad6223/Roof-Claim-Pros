@@ -67,6 +67,12 @@ export default function Header() {
             {/* Desktop Navigation Items */}
             <div className="hidden md:flex items-center space-x-4">
             <button
+                onClick={() => window.open(`${process.env.NEXT_PUBLIC_CONTRACTOR_URL}`, '_blank')}
+                className="flex items-center space-x-2 bg-[#122E5F] hover:bg-transparent hover:text-[#122E5F] border hover:border-[#122E5F] text-white px-6 py-2.5 rounded-lg transition-all duration-300 font-medium shadow-sm"
+              >
+                <span className="text-sm font-semibold">Contractor</span>
+              </button>
+            <button
                 onClick={() =>
                   scroller.scrollTo('how-it-works', {
                     duration: 800,
