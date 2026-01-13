@@ -6,8 +6,13 @@ export async function POST(request: Request) {
   const body = await request.json();
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string;
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY as string;
+  const zapierWebhook = process.env.ZAPIER_WEBHOOK_URL;
+
   if (!supabaseUrl || !serviceRoleKey) {
-    return NextResponse.json({ error: "Server config missing" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Server config missing" },
+      { status: 500 }
+    );
   }
   const admin = createClient(supabaseUrl, serviceRoleKey);
   const payload = {
@@ -22,8 +27,36 @@ export async function POST(request: Request) {
     Latitude: body.coords?.lat ?? null,
     Longitude: body.coords?.lng ?? null,
   };
-  const { data: lead, error } = await admin.from("Leads_Data").insert([payload]).select().single();
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  const { data: lead, error } = await admin
+    .from("Leads_Data")
+    .insert([payload])
+    .select()
+    .single();
+  if (error)
+    return NextResponse.json({ error: error.message }, { status: 500 });
+
+  // 🔔 Send to Zapier (NON-BLOCKING)
+  if (zapierWebhook) {
+    fetch(zapierWebhook, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        lead_id: lead.id,
+        firstName: lead["First Name"],
+        lastName: lead["Last Name"],
+        phoneNumber: lead["Phone Number"],
+        email: lead["Email Address"],
+        address: lead["Property Address"],
+        insurance: lead["Insurance Company"],
+        policyNumber: lead["Policy Number"],
+        latitude: lead["Latitude"],
+        longitude: lead["Longitude"],
+        status: "open",
+      }),
+    }).catch((err) => {
+      console.error("Zapier webhook failed:", err);
+    });
+  }
 
   // Auto-assign on server (service role, bypass RLS)
   const { data: pendingRequests, error: requestError } = await admin
@@ -32,7 +65,8 @@ export async function POST(request: Request) {
     .ilike("Status", "pending")
     .order("created_at", { ascending: true });
 
-  if (requestError) return NextResponse.json({ error: requestError.message }, { status: 500 });
+  if (requestError)
+    return NextResponse.json({ error: requestError.message }, { status: 500 });
 
   if (pendingRequests && pendingRequests.length > 0) {
     for (const requestRow of pendingRequests) {
@@ -45,7 +79,11 @@ export async function POST(request: Request) {
         .eq("user_id", contractorId)
         .maybeSingle();
 
-      if (contractorError) return NextResponse.json({ error: contractorError.message }, { status: 500 });
+      if (contractorError)
+        return NextResponse.json(
+          { error: contractorError.message },
+          { status: 500 }
+        );
       if (!contractor) continue;
 
       const distance = haversineDistance(
@@ -75,7 +113,11 @@ export async function POST(request: Request) {
             },
           ]);
 
-        if (insertAssignedError) return NextResponse.json({ error: insertAssignedError.message }, { status: 500 });
+        if (insertAssignedError)
+          return NextResponse.json(
+            { error: insertAssignedError.message },
+            { status: 500 }
+          );
 
         const { error: insertContractorLeadError } = await admin
           .from("Contractor_Leads")
@@ -96,7 +138,11 @@ export async function POST(request: Request) {
             },
           ]);
 
-        if (insertContractorLeadError) return NextResponse.json({ error: insertContractorLeadError.message }, { status: 500 });
+        if (insertContractorLeadError)
+          return NextResponse.json(
+            { error: insertContractorLeadError.message },
+            { status: 500 }
+          );
 
         const newSendLeads = requestRow["Send Leads"] + 1;
         const newPendingLeads = requestRow["Pending Leads"] - 1;
@@ -111,14 +157,22 @@ export async function POST(request: Request) {
           })
           .eq("id", requestId);
 
-        if (updateRequestError) return NextResponse.json({ error: updateRequestError.message }, { status: 500 });
+        if (updateRequestError)
+          return NextResponse.json(
+            { error: updateRequestError.message },
+            { status: 500 }
+          );
 
         const { error: updateLeadError } = await admin
           .from("Leads_Data")
           .update({ Status: "close" })
           .eq("id", lead.id);
 
-        if (updateLeadError) return NextResponse.json({ error: updateLeadError.message }, { status: 500 });
+        if (updateLeadError)
+          return NextResponse.json(
+            { error: updateLeadError.message },
+            { status: 500 }
+          );
 
         return NextResponse.json({ lead, autoAssigned: true });
       }
@@ -128,5 +182,3 @@ export async function POST(request: Request) {
   await admin.from("Leads_Data").update({ Status: "open" }).eq("id", lead.id);
   return NextResponse.json({ lead, autoAssigned: false });
 }
-
-

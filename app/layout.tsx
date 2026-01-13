@@ -49,7 +49,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <GTM gtmId="GTM-KH98QBKQ" />
+        <GTM gtmId="GTM-KN4P5NHD" />
       </head>
       <body className={inter.className}>
         <Loader />

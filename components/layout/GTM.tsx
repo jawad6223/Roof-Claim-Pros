@@ -1,11 +1,10 @@
-"use client"; // This ensures it's client-side only.
+"use client";
 
 import Script from "next/script";
 
 export default function GTM({ gtmId }: { gtmId: string }) {
   return (
     <>
-      {/* Google Tag Manager Script (for head) */}
       <Script
         id="gtm-script"
         strategy="afterInteractive"
@@ -20,7 +19,6 @@ export default function GTM({ gtmId }: { gtmId: string }) {
         }}
       />
 
-      {/* Google Tag Manager NoScript (for body) */}
       <noscript>
         <iframe
           src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
