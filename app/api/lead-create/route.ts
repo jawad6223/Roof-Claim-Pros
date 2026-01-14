@@ -1,20 +1,11 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { supabase } from "@/lib/supabase";
 import haversineDistance from "@/utils/haversineDistance";
 
 export async function POST(request: Request) {
   const body = await request.json();
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string;
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY as string;
   const zapierWebhook = process.env.ZAPIER_WEBHOOK_URL;
 
-  if (!supabaseUrl || !serviceRoleKey) {
-    return NextResponse.json(
-      { error: "Server config missing" },
-      { status: 500 }
-    );
-  }
-  const admin = createClient(supabaseUrl, serviceRoleKey);
   const payload = {
     "Property Address": body.address,
     "First Name": body.firstName,
@@ -27,7 +18,7 @@ export async function POST(request: Request) {
     Latitude: body.coords?.lat ?? null,
     Longitude: body.coords?.lng ?? null,
   };
-  const { data: lead, error } = await admin
+  const { data: lead, error } = await supabase
     .from("Leads_Data")
     .insert([payload])
     .select()
@@ -59,7 +50,7 @@ export async function POST(request: Request) {
   }
 
   // Auto-assign on server (service role, bypass RLS)
-  const { data: pendingRequests, error: requestError } = await admin
+  const { data: pendingRequests, error: requestError } = await supabase
     .from("Leads_Request")
     .select("*")
     .ilike("Status", "pending")
@@ -73,7 +64,7 @@ export async function POST(request: Request) {
       const contractorId = requestRow.contractor_id;
       const requestId = requestRow.id;
 
-      const { data: contractor, error: contractorError } = await admin
+      const { data: contractor, error: contractorError } = await supabase
         .from("Roofing_Auth")
         .select('"Latitude", "Longitude", "Service Radius", "Full Name"')
         .eq("user_id", contractorId)
@@ -94,7 +85,7 @@ export async function POST(request: Request) {
       );
 
       if (distance <= parseFloat(contractor["Service Radius"])) {
-        const { error: insertAssignedError } = await admin
+        const { error: insertAssignedError } = await supabase
           .from("Assigned_Leads")
           .insert([
             {
@@ -119,7 +110,7 @@ export async function POST(request: Request) {
             { status: 500 }
           );
 
-        const { error: insertContractorLeadError } = await admin
+        const { error: insertContractorLeadError } = await supabase
           .from("Contractor_Leads")
           .insert([
             {
@@ -148,7 +139,7 @@ export async function POST(request: Request) {
         const newPendingLeads = requestRow["Pending Leads"] - 1;
         const newStatus = newPendingLeads <= 0 ? "assigned" : "pending";
 
-        const { error: updateRequestError } = await admin
+        const { error: updateRequestError } = await supabase
           .from("Leads_Request")
           .update({
             "Send Leads": newSendLeads,
@@ -163,7 +154,7 @@ export async function POST(request: Request) {
             { status: 500 }
           );
 
-        const { error: updateLeadError } = await admin
+        const { error: updateLeadError } = await supabase
           .from("Leads_Data")
           .update({ Status: "close" })
           .eq("id", lead.id);
@@ -179,6 +170,6 @@ export async function POST(request: Request) {
     }
   }
 
-  await admin.from("Leads_Data").update({ Status: "open" }).eq("id", lead.id);
+  await supabase.from("Leads_Data").update({ Status: "open" }).eq("id", lead.id);
   return NextResponse.json({ lead, autoAssigned: false });
 }
