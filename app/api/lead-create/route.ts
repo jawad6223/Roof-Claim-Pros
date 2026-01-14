@@ -130,26 +130,28 @@ export async function POST(request: Request) {
 
   // 5️⃣ webhook
   if (zapierWebhook) {
-    fetch(zapierWebhook, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        lead_id: lead.id,
-        firstName: lead["First Name"],
-        lastName: lead["Last Name"],
-        phoneNumber: lead["Phone Number"],
-        email: lead["Email Address"],
-        address: lead["Property Address"],
-        insurance: lead["Insurance Company"],
-        policyNumber: lead["Policy Number"],
-        latitude: lead["Latitude"],
-        longitude: lead["Longitude"],
-        status: finalStatus,
-        assigned_to: assignedContractorName,
-      }),
-    }).catch((err) => {
+    try {
+      await fetch(zapierWebhook, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          lead_id: lead.id,
+          firstName: lead["First Name"],
+          lastName: lead["Last Name"],
+          phoneNumber: lead["Phone Number"],
+          email: lead["Email Address"],
+          address: lead["Property Address"],
+          insurance: lead["Insurance Company"],
+          policyNumber: lead["Policy Number"],
+          latitude: lead["Latitude"],
+          longitude: lead["Longitude"],
+          status: finalStatus,
+          assigned_to: assignedContractorName,
+        }),
+      });
+    } catch (err) {
       console.error("Zapier webhook failed:", err);
-    });
+    }
   }
 
   return NextResponse.json({
