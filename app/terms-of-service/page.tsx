@@ -37,7 +37,7 @@ export default function TermsOfService() {
                 Roof Claim Pros helps homeowners get free roof replacement quotes after storm damage. We connect homeowners with licensed and insured contractors quickly and safely.
               </p>
               <p className="text-gray-700 leading-relaxed text-lg mb-4">
-                You can contact us by phone at <a href="tel:0554246940" className="text-[#2563eb] hover:underline">(055) 424-6940</a>, email at <a href="mailto:contact@roofing.com" className="text-[#2563eb] hover:underline">contact@roofing.com</a>, or by mail to California, California, CA 90001, United States.
+                You can contact us by phone at <a href="tel:5413375734" className="text-[#2563eb] hover:underline">541-337-5734</a>, email at <a href="mailto:info@budtorcom.com" className="text-[#2563eb] hover:underline">info@budtorcom.com</a>, or by mail to California, California, CA 90001, United States.
               </p>
               <div className="bg-red-50 border-l-4 border-red-500 p-6 my-8 rounded-r-lg">
                 <p className="text-gray-700 mb-2">
@@ -131,7 +131,7 @@ export default function TermsOfService() {
                   Except as set out in this section or elsewhere in our Legal Terms, no part of the Services and no Content or Marks may be copied, reproduced, aggregated, republished, uploaded, posted, publicly displayed, encoded, translated, transmitted, distributed, sold, licensed, or otherwise exploited for any commercial purpose whatsoever, without our express prior written permission.
                 </p>
                 <p className="text-gray-700 mb-4">
-                  If you wish to make any use of the Services, Content, or Marks other than as set out in this section or elsewhere in our Legal Terms, please address your request to: <a href="mailto:contact@roofing.com" className="text-[#2563eb] hover:underline">contact@roofing.com</a>. If we ever grant you the permission to post, reproduce, or publicly display any part of our Services or Content, you must identify us as the owners or licensors of the Services, Content, or Marks and ensure that any copyright or proprietary notice appears or is visible on posting, reproducing, or displaying our Content.
+                  If you wish to make any use of the Services, Content, or Marks other than as set out in this section or elsewhere in our Legal Terms, please address your request to: <a href="mailto:info@budtorcom.com" className="text-[#2563eb] hover:underline">info@budtorcom.com</a>. If we ever grant you the permission to post, reproduce, or publicly display any part of our Services or Content, you must identify us as the owners or licensors of the Services, Content, or Marks and ensure that any copyright or proprietary notice appears or is visible on posting, reproducing, or displaying our Content.
                 </p>
                 <p className="text-gray-700 mb-6">
                   We reserve all rights not expressly granted to you in and to the Services, Content, and Marks.
@@ -495,8 +495,8 @@ export default function TermsOfService() {
                     <p>Roof Claim Pros</p>
                     <p>California</p>
                     <p>United States</p>
-                    <p>Phone: (055) 424-6940</p>
-                    <p className='text-blue-500'>contact@roofing.com</p>
+                    <p>Phone: 541-337-5734</p>
+                    <p className='text-blue-500'>info@budtorcom.com</p>
                 </div>
                 </p>
               </div>

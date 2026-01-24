@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react';
-import { Phone, Shield, Zap, Star, Sparkles, FileText, Lock, Building } from 'lucide-react';
+import { Phone, Shield, Mail, Zap, Star, Sparkles, FileText, Lock, Building } from 'lucide-react';
 import { footerServices } from '@/data/sectionsData';
 import Link from 'next/link';
 
@@ -11,7 +11,7 @@ export default function Footer() {
       {/* Professional Background Pattern */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-[linear-gradient(rgba(37,99,235,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(37,99,235,0.05)_1px,transparent_1px)] bg-[size:40px_40px]"></div>
-        
+
         {/* Subtle accent elements */}
         <div className="absolute top-20 left-10 w-32 h-32 bg-[#2563eb]/10 rounded-full blur-2xl"></div>
         <div className="absolute bottom-20 right-10 w-24 h-24 bg-white/5 rounded-full blur-2xl"></div>
@@ -55,7 +55,7 @@ export default function Footer() {
               <Zap className="h-5 w-5 text-[#2563eb] mr-2" />
               Services
             </h4>
-            
+
             <div className="space-y-3">
               {footerServices.map((service: string, index: number) => (
                 <div
@@ -76,17 +76,41 @@ export default function Footer() {
             <h4 className="text-xl font-bold text-white mb-4 flex items-center">
               Contact
             </h4>
-            
+
             <div className="space-y-4">
-              <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4">
-                <div className="flex items-center space-x-3 mb-2">
+              <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4 space-y-3">
+                <div className="flex items-center space-x-3">
                   <Phone className="h-5 w-5 text-[#2563eb]" />
                   <span className="text-[#2563eb] font-semibold">24/7 Emergency Service</span>
                 </div>
-                <p className="text-gray-300 text-sm mt-1">
+
+                <p className="text-gray-300 text-sm">
                   Available nationwide for emergency repairs
                 </p>
+
+                <div className="border-t border-white/10 pt-3 space-y-2">
+                  <div className="flex items-center space-x-2 text-sm text-gray-300">
+                    <Phone className="h-4 w-4 text-[#2563eb]" />
+                    <a
+                      href="tel:5413375734"
+                      className="hover:text-white transition"
+                    >
+                      541-337-5734
+                    </a>
+                  </div>
+
+                  <div className="flex items-center space-x-2 text-sm text-gray-300">
+                    <Mail className="h-4 w-4 text-[#2563eb]" />
+                    <a
+                      href="mailto:info@budtorcom.com"
+                      className="hover:text-white transition"
+                    >
+                      info@budtorcom.com
+                    </a>
+                  </div>
+                </div>
               </div>
+
 
               {/* Licensed Info */}
               <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4">
@@ -105,10 +129,10 @@ export default function Footer() {
         {/* Bottom Section */}
         <div className="relative">
           <div className="border-t border-white/10 mb-8"></div>
-          
+
           <div className="text-center space-y-6">
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
-              <Link 
+              <Link
                 href="/privacy-policy"
                 className="group flex items-center gap-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg px-5 py-2.5 hover:bg-white/10 hover:border-[#2563eb]/50 transition-all duration-300"
               >
@@ -117,10 +141,10 @@ export default function Footer() {
                   Privacy Policy
                 </span>
               </Link>
-              
+
               <div className="hidden sm:block w-1 h-1 bg-gray-600 rounded-full"></div>
-              
-              <Link 
+
+              <Link
                 href="/terms-of-service"
                 className="group flex items-center gap-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg px-5 py-2.5 hover:bg-white/10 hover:border-[#2563eb]/50 transition-all duration-300"
               >
@@ -131,8 +155,8 @@ export default function Footer() {
               </Link>
 
               <div className="hidden sm:block w-1 h-1 bg-gray-600 rounded-full"></div>
-              
-              <Link 
+
+              <Link
                 href={process.env.NEXT_PUBLIC_CONTRACTOR_URL || ''}
                 target="_blank"
                 className="group flex items-center gap-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg px-5 py-2.5 hover:bg-white/10 hover:border-[#2563eb]/50 transition-all duration-300"
@@ -143,13 +167,13 @@ export default function Footer() {
                 </span>
               </Link>
             </div>
-            
+
             <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl px-6 py-3 inline-block">
               <p className="text-gray-400 text-sm">
-                © 2024 Roof Claim Pros. All rights reserved. Licensed, bonded, and insured.
+                © 2026 Roof Claim Pros. All rights reserved. Licensed, bonded, and insured.
               </p>
             </div>
-            
+
             {/* Trust Indicators */}
             <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-6">
               <div className="flex items-center space-x-2">

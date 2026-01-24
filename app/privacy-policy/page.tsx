@@ -33,7 +33,7 @@ export default function PrivacyPolicy() {
               </ul>
               <div className="bg-blue-50 border-l-4 border-[#2563eb] p-6 my-8 rounded-r-lg">
                 <p className="text-gray-700 mb-2">
-                  <strong>Questions or concerns?</strong> Reading this Privacy Notice will help you understand your privacy rights and choices. We are responsible for making decisions about how your personal information is processed. If you do not agree with our policies and practices, please do not use our Services. If you still have any questions or concerns, please contact us at <a href="mailto:roofing@gmail.com" className="text-[#2563eb] hover:underline">roofing@gmail.com</a>.
+                  <strong>Questions or concerns?</strong> Reading this Privacy Notice will help you understand your privacy rights and choices. We are responsible for making decisions about how your personal information is processed. If you do not agree with our policies and practices, please do not use our Services. If you still have any questions or concerns, please contact us at <a href="mailto:info@budtorcom.com" className="text-[#2563eb] hover:underline">info@budtorcom.com</a>.
                 </p>
               </div>
             </section>
@@ -314,7 +314,7 @@ export default function PrivacyPolicy() {
                   </p>
                 </div>
                 <p className="text-gray-700">
-                  If you have questions or comments about your privacy rights, you may email us at <a href="mailto:roofing@gmail.com" className="text-[#2563eb] hover:underline">roofing@gmail.com</a>.
+                  If you have questions or comments about your privacy rights, you may email us at <a href="mailto:info@budtorcom.com" className="text-[#2563eb] hover:underline">info@budtorcom.com</a>.
                 </p>
               </div>
             </section>
@@ -473,7 +473,7 @@ export default function PrivacyPolicy() {
                 </ul>
                 <h3 className="text-xl font-semibold text-gray-900 mb-4">How to Exercise Your Rights</h3>
                 <p className="text-gray-700 mb-4">
-                  To exercise these rights, you can contact us by visiting <a href="https://roof-claim-pros.vercel.app" className="text-[#2563eb] hover:underline" target="_blank" rel="noopener noreferrer">https://roof-claim-pros.vercel.app</a>, by emailing us at <a href="mailto:roofing@gmail.com" className="text-[#2563eb] hover:underline">roofing@gmail.com</a>, or by referring to the contact details at the bottom of this document.
+                  To exercise these rights, you can contact us by visiting <a href="https://roof-claim-pros.vercel.app" className="text-[#2563eb] hover:underline" target="_blank" rel="noopener noreferrer">https://roof-claim-pros.vercel.app</a>, by emailing us at <a href="mailto:info@budtorcom.com" className="text-[#2563eb] hover:underline">info@budtorcom.com</a>, or by referring to the contact details at the bottom of this document.
                 </p>
                 <p className="text-gray-700 mb-4">
                   Under certain US state data protection laws, you can designate an authorized agent to make a request on your behalf. We may deny a request from an authorized agent that does not submit proof that they have been validly authorized to act on your behalf in accordance with applicable laws.
@@ -487,7 +487,7 @@ export default function PrivacyPolicy() {
                 </p>
                 <h3 className="text-xl font-semibold text-gray-900 mb-4">Appeals</h3>
                 <p className="text-gray-700 mb-4">
-                  Under certain US state data protection laws, if we decline to take action regarding your request, you may appeal our decision by emailing us at <a href="mailto:roofing@gmail.com" className="text-[#2563eb] hover:underline">roofing@gmail.com</a>. We will inform you in writing of any action taken or not taken in response to the appeal, including a written explanation of the reasons for the decisions. If your appeal is denied, you may submit a complaint to your state attorney general.
+                  Under certain US state data protection laws, if we decline to take action regarding your request, you may appeal our decision by emailing us at <a href="mailto:info@budtorcom.com" className="text-[#2563eb] hover:underline">info@budtorcom.com</a>. We will inform you in writing of any action taken or not taken in response to the appeal, including a written explanation of the reasons for the decisions. If your appeal is denied, you may submit a complaint to your state attorney general.
                 </p>
                 <h3 className="text-xl font-semibold text-gray-900 mb-4">California "Shine The Light" Law</h3>
                 <p className="text-gray-700">
@@ -523,9 +523,10 @@ export default function PrivacyPolicy() {
                     <MapPin className="h-5 w-5 text-[#122E5F] mt-1 flex-shrink-0" />
                     <div>
                       <p className="font-semibold text-gray-900 mb-1">Roof Claim Pros</p>
-                      <p className="text-gray-700">123, Dalla California, USA</p>
-                      <p className="text-gray-700">California, CA 90001</p>
+                      <p className="text-gray-700">California, USA</p>
                       <p className="text-gray-700">United States</p>
+                      <p className="text-gray-700">Phone: 541-337-5734</p>
+                      <p className="text-blue-500">info@budtorcom.com</p>
                     </div>
                   </div>
                 </div>
