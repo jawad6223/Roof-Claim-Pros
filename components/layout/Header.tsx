@@ -55,7 +55,7 @@ export default function Header() {
                 <div className="relative w-40 h-40 mt-2 sm:w-40 sm:h-40 flex-shrink-0 flex items-center justify-center">
                   <Image
                     onClick={() => router.push('/')}
-                    src="/roofing-logo.webp"
+                    src="/roofing-logo.png"
                     alt="Logo"
                     fill
                     className="object-contain cursor-pointer"
